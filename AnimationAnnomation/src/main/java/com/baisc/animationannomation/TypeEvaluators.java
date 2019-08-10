@@ -1,0 +1,16 @@
+package com.baisc.animationannomation;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+/**
+ * Animator setEvaluator.
+ */
+
+@Target(ElementType.FIELD)
+@Retention(RetentionPolicy.CLASS)
+public @interface TypeEvaluators {
+
+    Class<?> value();
+}
