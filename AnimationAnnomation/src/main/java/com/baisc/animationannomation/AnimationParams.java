@@ -31,6 +31,7 @@ public @interface AnimationParams {
      *
      * @return
      */
+    @Deprecated
     long startTime() default -1;
 
     /**

@@ -17,6 +17,14 @@ public class Animator extends Annotation {
     public boolean autoCancel;
 
     public Animator(VariableElement mirror) {
-        super(mirror);
+        this(mirror, mirror.getAnnotation(com.baisc.animationannomation.Animator.class));
+
+    }
+
+    public Animator(VariableElement element, com.baisc.animationannomation.Animator mirror) {
+        super(element);
+        property = mirror.property();
+        values = mirror.value();
+        autoCancel = mirror.autoCancel();
     }
 }

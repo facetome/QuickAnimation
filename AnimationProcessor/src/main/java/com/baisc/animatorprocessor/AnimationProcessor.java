@@ -10,6 +10,7 @@ import com.baisc.animationannomation.Rotate;
 import com.baisc.animationannomation.Scale;
 import com.baisc.animationannomation.Translate;
 import com.baisc.animationannomation.TypeEvaluators;
+import com.baisc.animatorprocessor.core.AnnotationConverter;
 import com.baisc.animatorprocessor.core.GenerateCode;
 import com.baisc.animatorprocessor.core.GenerateProxy;
 import com.baisc.animatorprocessor.core.JavaPoetGenerator;
@@ -41,7 +42,7 @@ import javax.tools.Diagnostic.Kind;
  */
 
 @AutoService(Processor.class)
-public class AnimatorProcessor extends AbstractProcessor {
+public class AnimationProcessor extends AbstractProcessor {
     private ProcessingEnvironment mEnvironment;
     private Messager mMessager;
 
@@ -85,7 +86,7 @@ public class AnimatorProcessor extends AbstractProcessor {
                         findVariableAnnomationsByClass(clazz);
                         //获取到当前指定变量所保存的注解
                         List<Annotation> annotations = findAnnomations(clazz, variableName);
-                        List<Annotation> annotation = Annotation.convert(mEnvironment.getMessager(), variableElement);
+                        List<Annotation> annotation = AnnotationConverter.convert(mEnvironment.getMessager(), variableElement);
                         annotations.addAll(annotation);
                         filiterElements.put(clazz + variableName, element);
                     }

@@ -24,5 +24,12 @@ public class Rotate extends Annotation {
 
     public Rotate(VariableElement mirror) {
         super(mirror);
+        com.baisc.animationannomation.Rotate rotate = mirror.getAnnotation(com.baisc.animationannomation.Rotate.class);
+        fromDegree = rotate.fromDegree();
+        toDegree = rotate.toDegree();
+        pivotXType = rotate.pivotXType();
+        pivotYType = rotate.pivotYType();
+        pivotXValue = rotate.pivotXValue();
+        pivotYValue = rotate.pivotYValue();
     }
 }

@@ -19,14 +19,16 @@ public class Animators extends Annotation {
 
     public Animators(VariableElement mirror) {
         super(mirror);
+        com.baisc.animationannomation.Animators animatorsAnnotation = mirror.getAnnotation(com.baisc.animationannomation.Animators.class);
+        com.baisc.animationannomation.Animator[] animatorArray = animatorsAnnotation.value();
+        mPlayTogether = animatorsAnnotation.playTogether();
+        for (com.baisc.animationannomation.Animator source : animatorArray) {
+            addAnimator(new Animator(mirror, source));
+        }
     }
 
-    public void addAnimator(Animator animator) {
+    private void addAnimator(Animator animator) {
         mAnimators.add(animator);
-    }
-
-    public void setPlayTogether(boolean together) {
-        mPlayTogether = together;
     }
 
     public boolean isPlayTogether() {

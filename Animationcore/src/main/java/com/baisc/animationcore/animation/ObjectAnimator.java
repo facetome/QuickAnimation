@@ -25,6 +25,9 @@ public class ObjectAnimator extends BaseObjectAnimator<ObjectAnimator.Builder> {
         animator.setRepeatCount(builder.mBuilder.getRepeatCount());
         animator.setRepeatMode(builder.mBuilder.getRepeatMode());
         animator.setPropertyName(builder.mPropertyName);
+        if (builder.mBuilder.getEvaluator() != null) {
+            animator.setEvaluator(builder.mBuilder.getEvaluator());
+        }
         float[] values = builder.values;
         if (values != null && values.length > 0) {
             animator.setFloatValues(values);

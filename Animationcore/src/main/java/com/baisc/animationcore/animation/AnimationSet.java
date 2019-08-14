@@ -1,5 +1,8 @@
 package com.baisc.animationcore.animation;
 
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+
 import com.baisc.animationcore.QuickAnimation.Builder;
 
 /**

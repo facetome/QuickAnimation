@@ -1,6 +1,7 @@
 package com.baisc.animatorprocessor.core;
 
 import com.baisc.animatorprocessor.Alpha;
+import com.baisc.animatorprocessor.Animations;
 import com.baisc.animatorprocessor.Animator;
 import com.baisc.animatorprocessor.Animators;
 import com.baisc.animatorprocessor.Annotation;
@@ -11,7 +12,6 @@ import com.baisc.animatorprocessor.Scale;
 import com.baisc.animatorprocessor.Translate;
 import com.baisc.animatorprocessor.utils.ClassUtils;
 import com.baisc.animatorprocessor.utils.TextUtils;
-import com.baisc.animatorprocessor.utils.Utils;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
@@ -45,7 +45,7 @@ public class JavaPoetGenerator implements GenerateCode {
         Iterator<Entry<String, List<Annotation>>> iterator = annotations.entrySet().iterator();
         while (iterator.hasNext()) {
             Entry<String, List<Annotation>> entry = iterator.next();
-            MethodSpec method = createMethod(entry.getKey(), entry.getValue());
+            MethodSpec method = convertAnnotationMethod(entry.getKey(), entry.getValue());
             if (method != null) {
                 classSpecBuilder.addMethod(method);
             }
@@ -75,53 +75,56 @@ public class JavaPoetGenerator implements GenerateCode {
     }
 
 
-    private MethodSpec createMethod(String viewName, List<Annotation> annotations) {
+    private MethodSpec convertAnnotationMethod(String viewName, List<Annotation> annotations) {
         if (annotations != null && !annotations.isEmpty()) {
+            Annotation annotation = null;
             MethodCreator creator = null;
-            if (annotations.size() > 1) { //代表这个是AnimationSet 或者AnimatorSet
-                if (Utils.isTargetAnimation(annotations, Animator.ANNOTATION_NAME)
-                        || !Utils.isExitAnimation(annotations, Animator.ANNOTATION_NAME)) {
-                    if (Utils.isTargetAnimation(annotations, Animator.ANNOTATION_NAME)) {
-                        creator = new AnimatorSet();
-                    } else {
-                        creator = new AnimationSet();
-                    }
+            if (annotations.size() > 1) { // 同一个view上面注解了多个动画注解器.
+                if (AnnotationChecker.checkAnimation(annotations)) {
+                    annotation = Animations.merge(annotations);
+                    creator = new AnimationSet();
                 } else {
-                    throw new IllegalStateException("@Animator can't be used with animation " + "together");
+                    //属性动画和view动画不能一起使用.
                 }
-
             } else {
-                Annotation annotation = annotations.get(0);
-                if (annotation != null) {
-                    String animationClass = annotation.mAnnotationClass.getName();
-                    if (Translate.ANNOTATION_NAME.equals(animationClass)) {
-                        creator = new TranslateCreator();
-                    } else if (Alpha.ANNOTATION_NAME.equals(animationClass)) {
-                        creator = new AlphaCreator();
-                    } else if (Rotate.ANNOTATION_NAME.equals(animationClass)) {
-                        creator = new RotateCreator();
-                    } else if (Scale.ANNOTATION_NAME.equals(animationClass)) {
-                        creator = new ScaleCreator();
-                    } else if (ResourceAnimation.ANNOTATION_NAME.equals(animationClass)) {
-                        creator = new ResourceAnimationCreator();
-                    } else if (Animator.ANNOTATION_NAME.equals(animationClass)) {
-                        creator = new AnimatorCreator();
-                    } else if (Animators.ANNOTATION_NAME.equals(animationClass)){
-                        creator = new AnimatorSet();
-                    }
-                }
+                annotation = annotations.get(0);
+                creator = createMethodCreator(annotation);
             }
             if (creator != null) {
-                return new MethodCreatorProxy(creator).createMethod(viewName, annotations);
+                return new MethodCreatorProxy(creator).createMethod(viewName, annotation);
 
             }
         }
         return null;
     }
 
+    private static MethodCreator createMethodCreator(Annotation annotation){
+        if (annotation != null) {
+            MethodCreator creator = null;
+            String animationClass = annotation.mAnnotationClass.getName();
+            if (Translate.ANNOTATION_NAME.equals(animationClass)) {
+                creator = new TranslateCreator();
+            } else if (Alpha.ANNOTATION_NAME.equals(animationClass)) {
+                creator = new AlphaCreator();
+            } else if (Rotate.ANNOTATION_NAME.equals(animationClass)) {
+                creator = new RotateCreator();
+            } else if (Scale.ANNOTATION_NAME.equals(animationClass)) {
+                creator = new ScaleCreator();
+            } else if (ResourceAnimation.ANNOTATION_NAME.equals(animationClass)) {
+                creator = new ResourceAnimationCreator();
+            } else if (Animator.ANNOTATION_NAME.equals(animationClass)) {
+                creator = new AnimatorCreator();
+            } else if (Animators.ANNOTATION_NAME.equals(animationClass)) {
+                creator = new AnimatorSet();
+            }
+            return creator;
+        }
+        return null;
+    }
+
 
     interface MethodCreator {
-        MethodSpec createMethod(String viewName, List<Annotation> annotations);
+        MethodSpec createMethod(String viewName, Annotation annotation);
     }
 
     private class MethodCreatorProxy implements MethodCreator {
@@ -133,38 +136,25 @@ public class JavaPoetGenerator implements GenerateCode {
         }
 
         @Override
-        public MethodSpec createMethod(String viewName, List<Annotation> annotations) {
-            return mMethodCreator.createMethod(viewName, annotations);
+        public MethodSpec createMethod(String viewName, Annotation annotation) {
+            return mMethodCreator.createMethod(viewName, annotation);
         }
 
     }
 
-    private String formatMethodName(String viewName, String suffix) {
+    private static String formatMethodName(String viewName, String suffix) {
         viewName = viewName.substring(0, 1).toUpperCase() + viewName.substring(1);
         return String.format("play%1$s%2$s", viewName, suffix);
     }
 
-    private abstract class AnimationMethodCreator implements MethodCreator {
+    private static abstract class AnimationMethodCreator implements MethodCreator {
         @Override
-        public MethodSpec createMethod(String viewName, List<Annotation> annotations) {
+        public MethodSpec createMethod(String viewName, Annotation annotation) {
             Builder builder = createMethodModifier(formatMethodName(viewName, animationType()));
-            beforeMethodCreate(builder, viewName, annotations);
-            int index = 0;
-            for (Annotation annotation : annotations) {
-                createMethodContent(builder, index);
-                createMethodContentWithAnimationParams(builder, index, viewName, annotation);
-                index++;
-            }
-            afterMethodCreate(builder, viewName, annotations);
+            createMethodContentEnter(builder);
+            createMethodContentWithAnimationParams(builder, annotation);
+            createMethodContentExit(builder, viewName);
             return builder.build();
-        }
-
-        protected void afterMethodCreate(Builder builder, String targetView, List<Annotation> annotations) {
-
-        }
-
-        protected void beforeMethodCreate(Builder builder, String targetView, List<Annotation> annotations) {
-
         }
 
         protected Builder createMethodModifier(String methodName) {
@@ -177,22 +167,20 @@ public class JavaPoetGenerator implements GenerateCode {
 
         protected abstract String animationType();
 
-        protected Builder createMethodContent(Builder builder, int index) {
+        protected void createMethodContentEnter(Builder builder) {
             String animationName = "com.baisc.animationcore.QuickAnimation";
             String builderName = animationName + ".Builder";
-            builder.addStatement("$T builder$L = $T.with($L)",
+            builder.addStatement("$T builder = $T.with($L)",
                     ClassName.get(ClassUtils.getPackageName(builderName), ClassUtils.getClassSimpleName(builderName)),
-                    index,
                     ClassName.get(ClassUtils.getPackageName(animationName), ClassUtils.getClassSimpleName(animationName)),
                     "target");
-            return builder;
         }
 
-        protected Builder createMethodContentWithAnimationParams(Builder builder, int index, String targetView, Annotation annotation) {
+        protected Builder createMethodContentWithAnimationParams(Builder builder, Annotation annotation) {
             Params params = annotation.mParams;
             if (params != null) {
-                builder.addStatement("builder$L.duration($L)\n.delay($L)\n.repeatCount($L)\n.repeatMode($L)\n.fillAfter($L)\n.fillBefore($L)",
-                        index,
+                builder.addStatement("builder.duration($L)\n.delay($L)\n.repeatCount($L)\n" +
+                                ".repeatMode($L)\n.fillAfter($L)\n.fillBefore($L)",
                         params.duration,
                         params.delayTime,
                         params.repeatCount,
@@ -203,15 +191,22 @@ public class JavaPoetGenerator implements GenerateCode {
             if (!TextUtils.isEmpty(annotation.mInterpolatorClass)) {
                 ClassName interpolator = ClassName.get(ClassUtils.getPackageName(annotation.mInterpolatorClass),
                         ClassUtils.getClassSimpleName(annotation.mInterpolatorClass));
-                builder.addStatement("builder$L.interpolator(new $T())", index, interpolator);
+                builder.addStatement("builder.interpolator(new $T())", interpolator);
+            }
+            if (!TextUtils.isEmpty(annotation.mEvaluatorClass)){
+                ClassName evaluator = ClassName.get(ClassUtils.getPackageName(annotation.mEvaluatorClass),
+                        ClassUtils.getClassSimpleName(annotation.mEvaluatorClass));
+                builder.addStatement("builder.evaluator(new $T())", evaluator);
             }
             return builder;
         }
 
-
+        protected void createMethodContentExit(Builder builder, String targetView) {
+            builder.addStatement("$L.play(target.$L)", animationType().toLowerCase(), targetView);
+        }
     }
 
-    private class TranslateCreator extends AnimationMethodCreator {
+    private static class TranslateCreator extends AnimationMethodCreator {
 
 
         @Override
@@ -220,23 +215,33 @@ public class JavaPoetGenerator implements GenerateCode {
         }
 
         @Override
-        protected Builder createMethodContentWithAnimationParams(Builder builder, int index, String targetView, Annotation annotation) {
-            super.createMethodContentWithAnimationParams(builder, index, targetView, annotation);
+        protected Builder createMethodContentWithAnimationParams(Builder builder, Annotation annotation) {
+            super.createMethodContentWithAnimationParams(builder, annotation);
             Translate translate = (Translate) annotation;
-            builder.addStatement("builder$L.astTranslate($Lf, $Lf,  $Lf,$Lf).play(target.$L)",
-                    index, translate.fromX, translate.fromY, translate.toX, translate.toY, targetView);
+
+            String translatePath = "com.baisc.animationcore.animation.Translate";
+            builder.addStatement("$T $L = builder.astTranslate($Lf, $Lf,  $Lf,$Lf)",
+                    ClassName.get(ClassUtils.getPackageName(translatePath),
+                            ClassUtils.getClassSimpleName(translatePath)),
+                    animationType().toLowerCase(),
+                    translate.fromX, translate.fromY, translate.toX, translate.toY);
             return builder;
         }
     }
 
 
-    private class AlphaCreator extends AnimationMethodCreator {
-
+    private static class AlphaCreator extends AnimationMethodCreator {
 
         @Override
-        protected Builder createMethodContentWithAnimationParams(Builder builder, int index, String targetView, Annotation annotation) {
+        protected Builder createMethodContentWithAnimationParams(Builder builder, Annotation annotation) {
+            super.createMethodContentWithAnimationParams(builder, annotation);
             Alpha alpha = (Alpha) annotation;
-            builder.addStatement("builder$L.asAlpha($Lf, $Lf).play(target.$L)", index, alpha.fromAlpha, alpha.toAlpha, targetView);
+            String alphaPath = "com.baisc.animationcore.animation.Alpha";
+            builder.addStatement("$T $L = builder.asAlpha($Lf, $Lf)",
+                    ClassName.get(ClassUtils.getPackageName(alphaPath), ClassUtils
+                            .getClassSimpleName(alphaPath)),
+                    animationType().toLowerCase(),
+                    alpha.fromAlpha, alpha.toAlpha);
             return builder;
         }
 
@@ -246,14 +251,18 @@ public class JavaPoetGenerator implements GenerateCode {
         }
     }
 
-    private class RotateCreator extends AnimationMethodCreator {
+    private static class RotateCreator extends AnimationMethodCreator {
 
         @Override
-        protected Builder createMethodContentWithAnimationParams(Builder builder, int index, String targetView, Annotation annotation) {
-            super.createMethodContentWithAnimationParams(builder, index, targetView, annotation);
+        protected Builder createMethodContentWithAnimationParams(Builder builder, Annotation annotation) {
+            super.createMethodContentWithAnimationParams(builder, annotation);
+            String rotatePath = "com.baisc.animationcore.animation.Rotate";
             Rotate rotate = (Rotate) annotation;
-            builder.addStatement("builder$L.asRotate($Lf, $Lf, $Lf, $Lf).play(target.$L)",
-                    index, rotate.fromDegree, rotate.toDegree, rotate.pivotXValue, rotate.pivotYValue, targetView);
+            builder.addStatement("$T $L = builder.asRotate($Lf, $Lf, $Lf, $Lf)",
+                    ClassName.get(ClassUtils.getPackageName(rotatePath), ClassUtils
+                            .getClassSimpleName(rotatePath)),
+                    animationType().toLowerCase(),
+                    rotate.fromDegree, rotate.toDegree, rotate.pivotXValue, rotate.pivotYValue);
             return builder;
         }
 
@@ -263,16 +272,21 @@ public class JavaPoetGenerator implements GenerateCode {
         }
     }
 
-    private class ScaleCreator extends AnimationMethodCreator {
+    private static class ScaleCreator extends AnimationMethodCreator {
 
         @Override
-        protected Builder createMethodContentWithAnimationParams(Builder builder, int index, String targetView, Annotation annotation) {
-            super.createMethodContentWithAnimationParams(builder, index, targetView, annotation);
+        protected Builder createMethodContentWithAnimationParams(Builder builder, Annotation annotation) {
+            super.createMethodContentWithAnimationParams(builder, annotation);
             Scale scale = (Scale) annotation;
-            builder.addStatement("builder$L.asScale($Lf, $Lf, $Lf, $Lf).play(target.$L)",
-                    index, scale.fromX, scale.toX, scale.fromY, scale.toX);
+            String scalePath =  "com.baisc.animationcore.animation.Scale";
+            builder.addStatement("$T $L = builder.asScale($Lf, $Lf, $Lf, $Lf))",
+                    ClassName.get(ClassUtils.getPackageName(scalePath),
+                            ClassUtils.getClassSimpleName(scalePath)),
+                    animationType().toLowerCase(),
+                    scale.fromX, scale.toX, scale.fromY, scale.toX);
             return builder;
         }
+
 
         @Override
         protected String animationType() {
@@ -280,40 +294,46 @@ public class JavaPoetGenerator implements GenerateCode {
         }
     }
 
-    private class ResourceAnimationCreator extends AnimationMethodCreator {
+    private static class ResourceAnimationCreator extends AnimationMethodCreator {
 
         @Override
-        protected Builder createMethodContentWithAnimationParams(Builder builder, int index, String
-                targetView, Annotation annotation) {
-            super.createMethodContentWithAnimationParams(builder, index, targetView, annotation);
+        protected Builder createMethodContentWithAnimationParams(Builder builder, Annotation annotation) {
+            super.createMethodContentWithAnimationParams(builder, annotation);
             ResourceAnimation animation = (ResourceAnimation) annotation;
-            builder.addStatement("builder$L.asResourceAnimation($L).play(target.$L)",
-                    index, animation.resourceId, targetView);
+            String resourcePath = "com.baisc.animationcore.animation.ResourceAnimation";
+            builder.addStatement("$T $L = builder.asResourceAnimation($L)",
+                    ClassName.get(ClassUtils.getPackageName(resourcePath),
+                            ClassUtils.getClassSimpleName(resourcePath)),
+                    animationType().toLowerCase(),
+                    animation.resourceId);
             return builder;
         }
 
         @Override
         protected String animationType() {
-            return "ResourceAnimation";
+            return "Resource";
         }
     }
 
-    private class AnimatorCreator extends AnimationMethodCreator {
+    private static class AnimatorCreator extends AnimationMethodCreator {
 
         @Override
-        protected Builder createMethodContentWithAnimationParams(Builder builder, int index, String targetView, Annotation annotation) {
-            super.createMethodContentWithAnimationParams(builder, index, targetView, annotation);
+        protected Builder createMethodContentWithAnimationParams(Builder builder, Annotation annotation) {
+            super.createMethodContentWithAnimationParams(builder, annotation);
             Animator animator = (Animator) annotation;
             float[] values = animator.values;
             List<Float> formatValue = new ArrayList<>();
             for (float value : values) {
                 formatValue.add(value);
             }
-            builder.addStatement("builder$L.asObjectAnimator($S).setAutoCancel($L).setFloatValues($L).create().play(target.$L)",
-                    index,
+            String animatorPath = "com.baisc.animationcore.animation.BaseObjectAnimator";
+            builder.addStatement("$T $L = builder.asObjectAnimator($S).setAutoCancel($L).setFloatValues($L).create()",
+                    ClassName.get(ClassUtils.getPackageName(animatorPath),
+                            ClassUtils.getClassSimpleName(animatorPath)),
+                    animationType().toLowerCase(),
                     animator.property,
                     animator.autoCancel,
-                    TextUtils.join(",", formatValue.toArray(new Float[formatValue.size()]), "f"), targetView);
+                    TextUtils.join(",", formatValue.toArray(new Float[formatValue.size()]), "f"));
             return builder;
         }
 
@@ -324,52 +344,44 @@ public class JavaPoetGenerator implements GenerateCode {
         }
     }
 
-    private class AnimatorSet extends AnimationMethodCreator {
+    private static class AnimatorSet extends AnimationMethodCreator {
 
 
         @Override
-        protected Builder createMethodContentWithAnimationParams(Builder builder, int index, String targetView, Annotation annotation) {
-            super.createMethodContentWithAnimationParams(builder, index, targetView, annotation);
+        protected Builder createMethodContentWithAnimationParams(Builder builder, Annotation annotation) {
+            super.createMethodContentWithAnimationParams(builder, annotation);
             ClassName receiverAnimator = ClassName.get(ClassUtils.getPackageName("com.baisc.animationcore.animation.BaseObjectAnimator"),
                     ClassUtils.getClassSimpleName("com.baisc.animationcore.animation.BaseObjectAnimator"));
             Animators animators = (Animators) annotation;
-            int currentIndex=0;
-            for (Animator animator : animators.getAnimators()){
+            int currentIndex = 0;
+            for (Animator animator : animators.getAnimators()) {
                 float[] values = animator.values;
                 List<Float> formatValue = new ArrayList<>();
                 for (float value : values) {
                     formatValue.add(value);
                 }
-                builder.addStatement("$T animator$L = builder$L.asObjectAnimator($S).setAutoCancel($L).setFloatValues($L).create()",
+                builder.addStatement("$T animator$L = builder.asObjectAnimator($S).setAutoCancel($L).setFloatValues($L).create()",
                         receiverAnimator,
                         currentIndex,
-                        index,
                         animator.property,
                         animator.autoCancel,
                         TextUtils.join(",", formatValue.toArray(new Float[formatValue.size()]), "f"));
                 currentIndex++;
             }
             String quickName = "com.baisc.animationcore.QuickAnimation";
-            String animatorName = "com.baisc.animationcore.animation.AnimatorSet.Builder";
+            String animatorSetPath = "com.baisc.animationcore.animation.AnimatorSet";
+            String animatorSetBuilderPath = animatorSetPath + ".Builder";
             builder.addStatement("$T animatorBuilder = $T.with($L).asObjectAnimators()",
-                    ClassName.get(ClassUtils.getPackageName(animatorName), ClassUtils.getClassSimpleName(animatorName)),
+                    ClassName.get(ClassUtils.getPackageName(animatorSetBuilderPath), ClassUtils.getClassSimpleName(animatorSetBuilderPath)),
                     ClassName.get(ClassUtils.getPackageName(quickName), ClassUtils.getClassSimpleName(quickName)), "target");
             for (int i = 0; i < animators.getAnimators().size(); i++) {
                 builder.addStatement("animatorBuilder.addAnimators(animator$L)", i);
             }
-            builder.addStatement("animatorBuilder.playTogether($L).create().play(target.$L)", animators.isPlayTogether(), targetView);
+            builder.addStatement("$T $L = (AnimatorSet)animatorBuilder.playTogether($L).create()",
+                    ClassName.get(ClassUtils.getPackageName(animatorSetPath), ClassUtils.getClassSimpleName(animatorSetPath)),
+                    animationType().toLowerCase(),
+                    animators.isPlayTogether());
             return builder;
-        }
-
-        @Override
-        protected void afterMethodCreate(Builder builder, String targetView, List<Annotation> annotations) {
-            super.afterMethodCreate(builder, targetView, annotations);
-
-        }
-
-        @Override
-        public MethodSpec createMethod(String viewName, List<Annotation> annotations) {
-            return super.createMethod(viewName, annotations);
         }
 
         @Override
@@ -378,12 +390,30 @@ public class JavaPoetGenerator implements GenerateCode {
         }
     }
 
-    private class AnimationSet extends AnimationMethodCreator {
+    private static class AnimationSet extends AnimationMethodCreator {
 
+        @Override
+        protected Builder createMethodContentWithAnimationParams(Builder builder, Annotation annotation) {
+            super.createMethodContentWithAnimationParams(builder, annotation);
+            String animationsPath = "com.baisc.animationcore.animation.AnimationSet";
+            ClassName setReceiver = ClassName.get(ClassUtils.getPackageName(animationsPath),
+                    ClassUtils.getClassSimpleName(animationsPath));
+            builder.addStatement("$T $L = builder.asViewAnimation(true)", setReceiver, animationType().toLowerCase());
+            Animations animations = (Animations) annotation;
+            for (Annotation animation : animations.getChilds()) {
+                AnimationMethodCreator creator = (AnimationMethodCreator) createMethodCreator(animation);
+                if (creator != null){
+                    creator.createMethodContentWithAnimationParams(builder, animation);
+                    builder.addStatement("$L.addAnimations($L)", animationType().toLowerCase(),
+                            creator.animationType().toLowerCase());
+                }
+            }
+            return builder;
+        }
 
         @Override
         protected String animationType() {
-            return "Animation";
+            return "Animations";
         }
     }
 

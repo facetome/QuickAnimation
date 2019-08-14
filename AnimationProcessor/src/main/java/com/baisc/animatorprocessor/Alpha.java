@@ -16,5 +16,10 @@ public class Alpha extends Annotation {
 
     public Alpha(VariableElement mirror) {
         super(mirror);
+        com.baisc.animationannomation.Alpha alpha = mirror.getAnnotation(com.baisc.animationannomation.Alpha.class);
+        fromAlpha = alpha.fromAlpha();
+        toAlpha = alpha.toAlpha();
     }
+
+
 }

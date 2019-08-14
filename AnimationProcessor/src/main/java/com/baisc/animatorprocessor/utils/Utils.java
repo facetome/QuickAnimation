@@ -10,7 +10,7 @@ import java.util.List;
 
 public class Utils {
 
-    public static boolean isTargetAnimation(List<Annotation> annotations, String target) {
+    public static boolean hasTargetAnimation(List<Annotation> annotations, String target) {
         if (annotations != null && !annotations.isEmpty() && !TextUtils.isEmpty(target)) {
             for (Annotation annotation : annotations) {
                 if (!target.equals(annotation.mAnnotationClass.getName())) {

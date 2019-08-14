@@ -24,5 +24,12 @@ public class Translate extends Annotation {
 
     public Translate(VariableElement mirror) {
         super(mirror);
+        com.baisc.animationannomation.Translate translate = mirror.getAnnotation(com.baisc.animationannomation.Translate.class);
+        fromX = translate.fromX();
+        fromY = translate.fromY();
+        toX = translate.toX();
+        toY = translate.toY();
+        xType = translate.xType();
+        yType = translate.yType();
     }
 }

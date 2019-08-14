@@ -8,6 +8,7 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.TextView;
 
 import com.baisc.animationannomation.Alpha;
+import com.baisc.animationannomation.AnimationParams;
 import com.baisc.animationannomation.Interpolators;
 import com.baisc.animationannomation.Translate;
 import com.baisc.animationannomation.TypeEvaluators;
@@ -21,18 +22,23 @@ import com.baisc.animationcore.QuickAnimation.Builder;
 public class TestActivity extends AppCompatActivity {
 
 
-//    @Interpolators(DecelerateInterpolator.class)
-//    @Translate(fromY = 0f, fromX = 1f, toX = 0f, toY = 1f)
-//    protected TextView mTextView;
-//
-//    @Alpha(fromAlpha = 1.0f, toAlpha = 0f)
-//    protected TextView mTextView2;
+    @TypeEvaluators(TestEvaluator.class)
+    @AnimationParams(duration = 1000, delayTime = 100, repeatCount = 10, repeatMode = 0)
+    @Alpha(fromAlpha = 1.0f, toAlpha = 0f)
+    @Interpolators(DecelerateInterpolator.class)
+    @Translate(fromY = 0f, fromX = 1f, toX = 0f, toY = 1f)
+    protected TextView mTextView;
+
+    @TypeEvaluators(TestEvaluator.class)
+    @Interpolators(DecelerateInterpolator.class)
+    @Alpha(fromAlpha = 1.0f, toAlpha = 0f)
+    protected TextView mTextView2;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //        TestAnimationHepler.get().playLoginViewAnimation(this);
-        Builder builder = QuickAnimation.with(this);
+//        Builder builder = QuickAnimation.with(this).interpolator().asViewAnimation();
     }
 
     @Override

@@ -80,7 +80,6 @@ public class QuickAnimation {
 
         private int repeatMode = RESTART;
 
-
         private Builder(Activity activity) {
             if (activity == null) {
                 throw new IllegalArgumentException("activity is not be allowed null");
@@ -141,7 +140,6 @@ public class QuickAnimation {
             this.repeatMode = mode;
             return this;
         }
-
 
         public Translate astTranslate(float fromX, float fromY, float toX, float toY) {
             return new Translate(this, fromX, fromY, toX, toY);

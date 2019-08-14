@@ -28,5 +28,14 @@ public class Scale extends Annotation {
 
     public Scale(VariableElement mirror) {
         super(mirror);
+        com.baisc.animationannomation.Scale scale = mirror.getAnnotation(com.baisc.animationannomation.Scale.class);
+        fromX = scale.fromX();
+        fromY = scale.fromY();
+        toX = scale.toX();
+        toY = scale.toY();
+        pivotXType = scale.pivotXType();
+        pivotYType = scale.pivotYType();
+        pivotXValue = scale.pivotXValue();
+        pivotYValue = scale.pivotYValue();
     }
 }

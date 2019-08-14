@@ -17,8 +17,11 @@ public abstract class BaseObjectAnimator<T extends Builder> extends BaseAnimatio
 
     BaseObjectAnimator(Builder builder) {
         super(builder.mBuilder);
-        mAnimator =  createAnimator((T) builder);
-        mAnimator.setInterpolator(builder.mBuilder.getInterpolator());
+        T newBuilder = (T) builder;
+        mAnimator = createAnimator(newBuilder);
+        if (newBuilder.mBuilder.getInterpolator() != null) {
+            mAnimator.setInterpolator(newBuilder.mBuilder.getInterpolator());
+        }
         mAnimator.setDuration(builder.mBuilder.getDuration());
         mAnimator.setStartDelay(builder.mBuilder.getDelay());
     }
