@@ -10,6 +10,7 @@ import com.baisc.animatorprocessor.ResourceAnimation;
 import com.baisc.animatorprocessor.Rotate;
 import com.baisc.animatorprocessor.Scale;
 import com.baisc.animatorprocessor.Translate;
+import com.baisc.animatorprocessor.exception.AnnotationTypeException;
 import com.baisc.animatorprocessor.utils.ClassUtils;
 import com.baisc.animatorprocessor.utils.TextUtils;
 import com.squareup.javapoet.ClassName;
@@ -36,6 +37,8 @@ import javax.lang.model.element.Modifier;
 public class JavaPoetGenerator implements GenerateCode {
 
     private static final String GENERATOR_SUFFIX = "_Generator";
+    private static final String BASE_PACKAGE_PATH =  "com.baisc.animationcore.";
+    private static final String BASE_ANIMATION_PATH = BASE_PACKAGE_PATH + "animation";
 
 
     @Override
@@ -77,14 +80,15 @@ public class JavaPoetGenerator implements GenerateCode {
 
     private MethodSpec convertAnnotationMethod(String viewName, List<Annotation> annotations) {
         if (annotations != null && !annotations.isEmpty()) {
-            Annotation annotation = null;
-            MethodCreator creator = null;
+            Annotation annotation;
+            MethodCreator creator;
             if (annotations.size() > 1) { // 同一个view上面注解了多个动画注解器.
                 if (AnnotationChecker.checkAnimation(annotations)) {
                     annotation = Animations.merge(annotations);
                     creator = new AnimationSet();
                 } else {
                     //属性动画和view动画不能一起使用.
+                    throw new AnnotationTypeException("a view element can be only bind one animation type");
                 }
             } else {
                 annotation = annotations.get(0);
@@ -168,7 +172,7 @@ public class JavaPoetGenerator implements GenerateCode {
         protected abstract String animationType();
 
         protected void createMethodContentEnter(Builder builder) {
-            String animationName = "com.baisc.animationcore.QuickAnimation";
+            String animationName = BASE_PACKAGE_PATH + "QuickAnimation";
             String builderName = animationName + ".Builder";
             builder.addStatement("$T builder = $T.with($L)",
                     ClassName.get(ClassUtils.getPackageName(builderName), ClassUtils.getClassSimpleName(builderName)),
@@ -219,7 +223,7 @@ public class JavaPoetGenerator implements GenerateCode {
             super.createMethodContentWithAnimationParams(builder, annotation);
             Translate translate = (Translate) annotation;
 
-            String translatePath = "com.baisc.animationcore.animation.Translate";
+            String translatePath = BASE_ANIMATION_PATH + "Translate";
             builder.addStatement("$T $L = builder.astTranslate($Lf, $Lf,  $Lf,$Lf)",
                     ClassName.get(ClassUtils.getPackageName(translatePath),
                             ClassUtils.getClassSimpleName(translatePath)),
@@ -236,7 +240,7 @@ public class JavaPoetGenerator implements GenerateCode {
         protected Builder createMethodContentWithAnimationParams(Builder builder, Annotation annotation) {
             super.createMethodContentWithAnimationParams(builder, annotation);
             Alpha alpha = (Alpha) annotation;
-            String alphaPath = "com.baisc.animationcore.animation.Alpha";
+            String alphaPath = BASE_ANIMATION_PATH + "Alpha";
             builder.addStatement("$T $L = builder.asAlpha($Lf, $Lf)",
                     ClassName.get(ClassUtils.getPackageName(alphaPath), ClassUtils
                             .getClassSimpleName(alphaPath)),
@@ -256,7 +260,7 @@ public class JavaPoetGenerator implements GenerateCode {
         @Override
         protected Builder createMethodContentWithAnimationParams(Builder builder, Annotation annotation) {
             super.createMethodContentWithAnimationParams(builder, annotation);
-            String rotatePath = "com.baisc.animationcore.animation.Rotate";
+            String rotatePath = BASE_ANIMATION_PATH + "Rotate";
             Rotate rotate = (Rotate) annotation;
             builder.addStatement("$T $L = builder.asRotate($Lf, $Lf, $Lf, $Lf)",
                     ClassName.get(ClassUtils.getPackageName(rotatePath), ClassUtils
@@ -278,7 +282,7 @@ public class JavaPoetGenerator implements GenerateCode {
         protected Builder createMethodContentWithAnimationParams(Builder builder, Annotation annotation) {
             super.createMethodContentWithAnimationParams(builder, annotation);
             Scale scale = (Scale) annotation;
-            String scalePath =  "com.baisc.animationcore.animation.Scale";
+            String scalePath =  BASE_ANIMATION_PATH + "Scale";
             builder.addStatement("$T $L = builder.asScale($Lf, $Lf, $Lf, $Lf))",
                     ClassName.get(ClassUtils.getPackageName(scalePath),
                             ClassUtils.getClassSimpleName(scalePath)),
@@ -300,7 +304,7 @@ public class JavaPoetGenerator implements GenerateCode {
         protected Builder createMethodContentWithAnimationParams(Builder builder, Annotation annotation) {
             super.createMethodContentWithAnimationParams(builder, annotation);
             ResourceAnimation animation = (ResourceAnimation) annotation;
-            String resourcePath = "com.baisc.animationcore.animation.ResourceAnimation";
+            String resourcePath = BASE_ANIMATION_PATH + "ResourceAnimation";
             builder.addStatement("$T $L = builder.asResourceAnimation($L)",
                     ClassName.get(ClassUtils.getPackageName(resourcePath),
                             ClassUtils.getClassSimpleName(resourcePath)),
@@ -326,7 +330,7 @@ public class JavaPoetGenerator implements GenerateCode {
             for (float value : values) {
                 formatValue.add(value);
             }
-            String animatorPath = "com.baisc.animationcore.animation.BaseObjectAnimator";
+            String animatorPath = BASE_ANIMATION_PATH +"BaseObjectAnimator";
             builder.addStatement("$T $L = builder.asObjectAnimator($S).setAutoCancel($L).setFloatValues($L).create()",
                     ClassName.get(ClassUtils.getPackageName(animatorPath),
                             ClassUtils.getClassSimpleName(animatorPath)),
@@ -350,8 +354,9 @@ public class JavaPoetGenerator implements GenerateCode {
         @Override
         protected Builder createMethodContentWithAnimationParams(Builder builder, Annotation annotation) {
             super.createMethodContentWithAnimationParams(builder, annotation);
-            ClassName receiverAnimator = ClassName.get(ClassUtils.getPackageName("com.baisc.animationcore.animation.BaseObjectAnimator"),
-                    ClassUtils.getClassSimpleName("com.baisc.animationcore.animation.BaseObjectAnimator"));
+            String objectPath =  BASE_ANIMATION_PATH + "BaseObjectAnimator";
+            ClassName receiverAnimator = ClassName.get(ClassUtils.getPackageName(objectPath),
+                    ClassUtils.getClassSimpleName(objectPath));
             Animators animators = (Animators) annotation;
             int currentIndex = 0;
             for (Animator animator : animators.getAnimators()) {
@@ -368,8 +373,8 @@ public class JavaPoetGenerator implements GenerateCode {
                         TextUtils.join(",", formatValue.toArray(new Float[formatValue.size()]), "f"));
                 currentIndex++;
             }
-            String quickName = "com.baisc.animationcore.QuickAnimation";
-            String animatorSetPath = "com.baisc.animationcore.animation.AnimatorSet";
+            String quickName = BASE_PACKAGE_PATH + "QuickAnimation";
+            String animatorSetPath = BASE_ANIMATION_PATH + "AnimatorSet";
             String animatorSetBuilderPath = animatorSetPath + ".Builder";
             builder.addStatement("$T animatorBuilder = $T.with($L).asObjectAnimators()",
                     ClassName.get(ClassUtils.getPackageName(animatorSetBuilderPath), ClassUtils.getClassSimpleName(animatorSetBuilderPath)),
@@ -395,7 +400,7 @@ public class JavaPoetGenerator implements GenerateCode {
         @Override
         protected Builder createMethodContentWithAnimationParams(Builder builder, Annotation annotation) {
             super.createMethodContentWithAnimationParams(builder, annotation);
-            String animationsPath = "com.baisc.animationcore.animation.AnimationSet";
+            String animationsPath = BASE_ANIMATION_PATH + "AnimationSet";
             ClassName setReceiver = ClassName.get(ClassUtils.getPackageName(animationsPath),
                     ClassUtils.getClassSimpleName(animationsPath));
             builder.addStatement("$T $L = builder.asViewAnimation(true)", setReceiver, animationType().toLowerCase());

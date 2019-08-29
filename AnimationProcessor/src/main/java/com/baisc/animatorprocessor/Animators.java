@@ -17,6 +17,11 @@ public class Animators extends Annotation {
 
     private boolean mPlayTogether;
 
+    @Override
+    public byte viewType() {
+        return Type.TYPE_ANIMATOR;
+    }
+
     public Animators(VariableElement mirror) {
         super(mirror);
         com.baisc.animationannomation.Animators animatorsAnnotation = mirror.getAnnotation(com.baisc.animationannomation.Animators.class);

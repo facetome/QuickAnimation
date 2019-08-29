@@ -14,6 +14,11 @@ public class Alpha extends Annotation {
     public static String ANNOTATION_NAME = com.baisc.animationannomation.Alpha.class.getName();
 
 
+    @Override
+    public byte viewType() {
+        return Type.TYPE_VIEW;
+    }
+
     public Alpha(VariableElement mirror) {
         super(mirror);
         com.baisc.animationannomation.Alpha alpha = mirror.getAnnotation(com.baisc.animationannomation.Alpha.class);

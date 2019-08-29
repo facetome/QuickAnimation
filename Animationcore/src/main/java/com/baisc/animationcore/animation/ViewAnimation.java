@@ -4,6 +4,7 @@ import android.animation.TimeInterpolator;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.animation.Animation;
+import android.view.animation.Animation.AnimationListener;
 import android.view.animation.Interpolator;
 
 import com.baisc.animationcore.BaseAnimation;
@@ -14,7 +15,7 @@ import com.baisc.animationcore.AnimationState;
  * view动画基类.
  */
 
-public abstract class ViewAnimation extends BaseAnimation {
+public abstract class ViewAnimation extends BaseAnimation implements AnimationListener {
 
     @Nullable
     protected Animation mAnimation;
@@ -38,7 +39,30 @@ public abstract class ViewAnimation extends BaseAnimation {
         mAnimation.setRepeatCount(mBuilder.getRepeatCount());
         mAnimation.setRepeatMode(mBuilder.getRepeatMode());
         mAnimation.setStartOffset(mBuilder.getDelay());
+        mAnimation.setAnimationListener(this);
     }
+
+    @Override
+    public void onAnimationEnd(Animation animation) {
+        if (mBuilder.getAnimationCallback() != null) {
+            mBuilder.getAnimationCallback().onEnd(this);
+        }
+    }
+
+    @Override
+    public void onAnimationRepeat(Animation animation) {
+        if (mBuilder.getAnimationCallback() != null) {
+            mBuilder.getAnimationCallback().onRepeat(this);
+        }
+    }
+
+    @Override
+    public void onAnimationStart(Animation animation) {
+        if (mBuilder.getAnimationCallback() != null) {
+            mBuilder.getAnimationCallback().onStart(this);
+        }
+    }
+
 
     @Override
     public AnimationState play(View view) {

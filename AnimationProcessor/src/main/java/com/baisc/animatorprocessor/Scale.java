@@ -26,6 +26,11 @@ public class Scale extends Annotation {
 
     public float pivotYValue;
 
+    @Override
+    public byte viewType() {
+        return Type.TYPE_VIEW;
+    }
+
     public Scale(VariableElement mirror) {
         super(mirror);
         com.baisc.animationannomation.Scale scale = mirror.getAnnotation(com.baisc.animationannomation.Scale.class);

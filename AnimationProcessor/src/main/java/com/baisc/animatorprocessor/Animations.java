@@ -13,6 +13,11 @@ public class Animations extends Annotation {
 
     private List<Annotation> mChilds = new ArrayList<>();
 
+    @Override
+    public byte viewType() {
+        return Type.TYPE_VIEW;
+    }
+
     Animations(VariableElement mirror) {
         super(mirror);
     }

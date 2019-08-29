@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center">
+
+    <TextView
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:gravity="center"
+        android:background="@color/colorAccent"
+        android:onClick="translate"
+        android:text="平移" />
+
+
+    <TextView
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:gravity="center"
+        android:background="@color/colorAccent"
+        android:onClick="rotate"
+        android:layout_marginTop="10dp"
+        android:text="旋转" />
+
+    <TextView
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:gravity="center"
+        android:background="@color/colorAccent"
+        android:onClick="alpha"
+        android:layout_marginTop="10dp"
+        android:text="透明度" />
+
+    <TextView
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:gravity="center"
+        android:background="@color/colorAccent"
+        android:onClick="scale"
+        android:layout_marginTop="10dp"
+        android:text="缩放" />
+
+
+</LinearLayout>

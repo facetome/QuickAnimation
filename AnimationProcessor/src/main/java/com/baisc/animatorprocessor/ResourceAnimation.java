@@ -12,6 +12,11 @@ public class ResourceAnimation extends Annotation {
 
     public int resourceId;
 
+    @Override
+    public byte viewType() {
+        return Type.TYPE_RESOURCE;
+    }
+
     public ResourceAnimation(VariableElement mirror) {
         super(mirror);
         com.baisc.animationannomation.ResourceAnimation resourceAnimation = mirror.getAnnotation(com.baisc.animationannomation.ResourceAnimation.class);

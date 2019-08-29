@@ -16,6 +16,11 @@ public class Animator extends Annotation {
 
     public boolean autoCancel;
 
+    @Override
+    public byte viewType() {
+        return Type.TYPE_ANIMATOR;
+    }
+
     public Animator(VariableElement mirror) {
         this(mirror, mirror.getAnnotation(com.baisc.animationannomation.Animator.class));
 

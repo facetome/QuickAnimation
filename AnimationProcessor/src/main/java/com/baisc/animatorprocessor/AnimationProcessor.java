@@ -67,8 +67,8 @@ public class AnimationProcessor extends AbstractProcessor {
         if (set == null || set.isEmpty()) {
             return false;
         }
-        for (TypeElement annomation : set) {
-            Set<Element> alphaElements = (Set<Element>) roundEnvironment.getElementsAnnotatedWith(annomation);
+        for (TypeElement annotationsType : set) {
+            Set<Element> alphaElements = (Set<Element>) roundEnvironment.getElementsAnnotatedWith(annotationsType);
             if (alphaElements != null && !alphaElements.isEmpty()) {
                 for (Element element : alphaElements) {
                     if (element.getKind() == ElementKind.FIELD) {

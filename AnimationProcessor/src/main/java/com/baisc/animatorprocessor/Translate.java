@@ -22,6 +22,11 @@ public class Translate extends Annotation {
 
     public static String ANNOTATION_NAME = com.baisc.animationannomation.Translate.class.getName();
 
+    @Override
+    public byte viewType() {
+        return Type.TYPE_VIEW;
+    }
+
     public Translate(VariableElement mirror) {
         super(mirror);
         com.baisc.animationannomation.Translate translate = mirror.getAnnotation(com.baisc.animationannomation.Translate.class);

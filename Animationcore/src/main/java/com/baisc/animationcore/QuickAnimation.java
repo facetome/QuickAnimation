@@ -54,11 +54,29 @@ public class QuickAnimation {
         return new Builder(fragment);
     }
 
+    public interface OnAnimationCallback<T extends BaseAnimation> {
+        void onStart(T animation);
+
+        void onEnd(T animation);
+
+        /**
+         * onCancel.
+         * if T extends BaseOnbjectAnimator，this callback will not invoke
+         *
+         * @param animation 动画
+         */
+        void onCancel(T animation);
+
+        void onRepeat(T animation);
+    }
+
     public static class Builder {
 
         private AnimationType animationType;
 
         private TimeInterpolator interpolator;
+
+        private OnAnimationCallback mAnimationCallback;
 
         private WeakReference<Activity> mActivityReference;
 
@@ -131,13 +149,18 @@ public class QuickAnimation {
             return this;
         }
 
-        public Builder repeatCount(int repeatCount){
-                this.repeatCount = repeatCount;
-                return this;
+        public Builder repeatCount(int repeatCount) {
+            this.repeatCount = repeatCount;
+            return this;
         }
 
-        public Builder repeatMode(int mode){
+        public Builder repeatMode(int mode) {
             this.repeatMode = mode;
+            return this;
+        }
+
+        public <T extends BaseAnimation> Builder callback(OnAnimationCallback<T> callback) {
+            this.mAnimationCallback = callback;
             return this;
         }
 
@@ -212,6 +235,10 @@ public class QuickAnimation {
 
         public boolean isFillBefore() {
             return fillBefore;
+        }
+
+        public OnAnimationCallback getAnimationCallback() {
+            return mAnimationCallback;
         }
 
         private boolean checkActivity() {

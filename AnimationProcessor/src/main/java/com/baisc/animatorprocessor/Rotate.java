@@ -22,6 +22,11 @@ public class Rotate extends Annotation {
 
     public float pivotYValue;
 
+    @Override
+    public byte viewType() {
+        return Type.TYPE_VIEW;
+    }
+
     public Rotate(VariableElement mirror) {
         super(mirror);
         com.baisc.animationannomation.Rotate rotate = mirror.getAnnotation(com.baisc.animationannomation.Rotate.class);
