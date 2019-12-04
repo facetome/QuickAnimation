@@ -18,13 +18,13 @@ public class Scale extends Annotation {
 
     public float toY;
 
-    public int pivotXType;
-
-    public int pivotYType;
-
     public float pivotXValue;
 
     public float pivotYValue;
+
+    public int xType;
+
+    public int yType;
 
     @Override
     public byte viewType() {
@@ -38,9 +38,9 @@ public class Scale extends Annotation {
         fromY = scale.fromY();
         toX = scale.toX();
         toY = scale.toY();
-        pivotXType = scale.pivotXType();
-        pivotYType = scale.pivotYType();
         pivotXValue = scale.pivotXValue();
         pivotYValue = scale.pivotYValue();
+        xType = scale.pivotXType();
+        yType = scale.pivotYType();
     }
 }

@@ -64,5 +64,5 @@ public @interface AnimationParams {
      *
      * @return
      */
-    boolean fillBefore() default  false;
+    boolean fillBefore() default  true;
 }

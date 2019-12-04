@@ -49,7 +49,7 @@ public class AnimationProcessor extends AbstractProcessor {
     private Map<String, Map<String, List<Annotation>>> mAnnomationMap = new HashMap<>();
 
     //用于过滤已经遍历过的一个元素.
-    private Map<String, Element> filiterElements = new HashMap<>();
+    private Map<String, Element> filterElements = new HashMap<>();
 
     private GenerateCode mGenerator;
 
@@ -80,15 +80,15 @@ public class AnimationProcessor extends AbstractProcessor {
                         if (clazz.startsWith("android") || clazz.startsWith("java")){
                             continue;
                         }
-                        if (filiterElements.containsKey(clazz + variableName)) {
+                        if (filterElements.containsKey(clazz + variableName)) {
                             continue;
                         }
                         findVariableAnnomationsByClass(clazz);
                         //获取到当前指定变量所保存的注解
-                        List<Annotation> annotations = findAnnomations(clazz, variableName);
+                        List<Annotation> annotations = findAnnotations(clazz, variableName);
                         List<Annotation> annotation = AnnotationConverter.convert(mEnvironment.getMessager(), variableElement);
                         annotations.addAll(annotation);
-                        filiterElements.put(clazz + variableName, element);
+                        filterElements.put(clazz + variableName, element);
                     }
                 }
             }
@@ -150,7 +150,7 @@ public class AnimationProcessor extends AbstractProcessor {
         return clazzMap;
     }
 
-    private List<Annotation> findAnnomations(String clazz, String variable) {
+    private List<Annotation> findAnnotations(String clazz, String variable) {
         Map<String, List<Annotation>> map = findVariableAnnomationsByClass(clazz);
         List<Annotation> annotations = map.get(variable);
         if (annotations == null) {

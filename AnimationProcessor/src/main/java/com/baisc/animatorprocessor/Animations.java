@@ -46,4 +46,11 @@ public class Animations extends Annotation {
     public List<Annotation> getChilds() {
         return mChilds;
     }
+
+    public Annotation getChild(int index) {
+        if (mChilds != null && mChilds.size() > index) {
+            return mChilds.get(index);
+        }
+        return null;
+    }
 }

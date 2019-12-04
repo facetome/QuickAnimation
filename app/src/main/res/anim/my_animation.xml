@@ -1,16 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <set xmlns:android="http://schemas.android.com/apk/res/android"
     android:shareInterpolator="true"
-    android:duration="200"
-    >
+    android:duration="1000"
+    android:repeatMode="reverse">
 
 
     <translate
         android:fromXDelta="10"
-        android:toXDelta="20"/>
+        android:toXDelta="200"/>
 
     <alpha android:fromAlpha="0"
         android:toAlpha="1"/>
+
+    <scale android:fromXScale="1"
+        android:fromYScale="1"
+        android:toXScale="2"
+        android:toYScale="2"/>
 
 
 </set>

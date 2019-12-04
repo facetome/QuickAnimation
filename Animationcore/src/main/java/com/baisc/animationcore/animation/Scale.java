@@ -13,19 +13,10 @@ import com.baisc.animationcore.QuickAnimation.Builder;
 
 public class Scale extends ViewAnimation {
 
-
-    public Scale(Builder builder, float fromX, float toX, float fromY, float toY,
-            int pivotXType, float pivotXValue, int pivotYType, float pivotYValue) {
+    public Scale(Builder builder, float fromX, float toX, float fromY, float toY, int xType, float pivotX, int yType, float pivotY) {
         super(builder);
-        mAnimation =  new ScaleAnimation(fromX, toX, fromY, toY, pivotXType, pivotXValue, pivotYType, pivotYValue);
-    }
-
-    public Scale(Builder builder, float fromX, float toX, float fromY, float toY){
-       this(builder, fromX, toX, fromY, toY, 0f, 0f);
-    }
-
-    public Scale(Builder builder, float fromX, float toX, float fromY, float toY, float pivotX, float pivotY){
-         this(builder, fromX, toX, fromY, toY, Animation.ABSOLUTE, pivotX, Animation.ABSOLUTE, pivotY);
+        mAnimation = new ScaleAnimation(fromX, toX, fromY, toY, xType, pivotX, yType, pivotY);
+        create();
     }
 
 

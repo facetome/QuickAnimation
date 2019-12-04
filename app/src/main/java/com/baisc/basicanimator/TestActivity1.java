@@ -1,17 +1,21 @@
 package com.baisc.basicanimator;
 
-import android.animation.AnimatorSet;
-import android.animation.TypeEvaluator;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.TextView;
 
+import com.baisc.animationannomation.Alpha;
+import com.baisc.animationannomation.AnimationParams;
 import com.baisc.animationannomation.Animator;
 import com.baisc.animationannomation.Animators;
 import com.baisc.animationannomation.Interpolators;
+import com.baisc.animationannomation.ResourceAnimation;
+import com.baisc.animationannomation.Rotate;
+import com.baisc.animationannomation.Scale;
+import com.baisc.animationannomation.Translate;
 import com.baisc.animationannomation.TypeEvaluators;
-import com.baisc.animationcore.QuickAnimation;
 
 /**
  * Created by basic on 2019/7/14.
@@ -19,31 +23,77 @@ import com.baisc.animationcore.QuickAnimation;
 
 public class TestActivity1 extends TestActivity {
 
-//    @AnimationParams(duration = 1000, fillAfter = true)
-//    @Interpolators(DecelerateInterpolator.class)
-//    @Translate(fromX = 10f, fromY = 20f, toY = 30f,toX = 40f)
-//    TextView mTextView3;
-//
-//    @Rotate(fromDegree = 0, toDegree = 360)
-//    @AnimationParams(duration = 1000, fillAfter = true)
-//    ImageView mRotateImage;
-//
-//    @ResourceAnimation(animationId = R.anim.my_animation)
-//    ImageView resourceImage;
+    @Interpolators(DecelerateInterpolator.class)
+    @AnimationParams(duration = 1000, delayTime = 100)
+    @Translate(fromX = 0, toX = 100, fromY = 0, toY = 100)
+    @Alpha(fromAlpha = 1f, toAlpha = 0.5f)
+    TextView translate;
 
+    @Rotate(fromDegree = 0, toDegree = 360f, pivotXType = 1, pivotYType = 1, pivotXValue = 0.5f, pivotYValue = 0.5f)
+    @AnimationParams(duration = 1000, delayTime = 100)
+    TextView rotate;
+
+    @AnimationParams(duration = 1000, delayTime = 100)
+    @Alpha(fromAlpha = 1f, toAlpha = 0.5f)
+    TextView alpha;
+
+    @AnimationParams(duration = 1000, delayTime = 100)
+    @Scale(fromX = 1, toX = 2, fromY = 1, toY = 2, pivotXType = 1, pivotXValue = 0.5f, pivotYType = 1,pivotYValue = 0.5f)
+    TextView scale;
+
+    @ResourceAnimation(animationId = R.anim.my_animation)
+    TextView resource;
+
+    @AnimationParams(duration = 1000, delayTime = 100)
+    @Animator(property = "TranslationX", value = {0, 100})
+    TextView animator;
+
+    @AnimationParams(duration = 1000, delayTime = 100)
     @TypeEvaluators(TestEvaluator.class)
     @Interpolators(DecelerateInterpolator.class)
-    @Animators(value = {@Animator(property = "TranslateX", value = {1,3,3}, autoCancel = true),
-            @Animator(property = "TranslateY", value = {1,3,3}, autoCancel = true)},playTogether = false)
-//    @Animator(property = "Translate", value = {1,3,3}, autoCancel = true)
-    TextView mAnimator;
+    @Animators(value = {@Animator(property = "TranslationX", value = {0, 100}, autoCancel = true),
+            @Animator(property = "TranslationY", value = {0, 100}, autoCancel = true)}, playTogether = true)
+    TextView animators;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        AnimatorSet set = new AnimatorSet();
-//        QuickAnimation.with(this).fillAfter(true).asRotate();
-//        QuickAnimation.with(this).asViewAnimation(true).addAnimations().play(mAnimator)
-
+        setContentView(R.layout.test1_layout);
+        translate = findViewById(R.id.translate);
+        rotate = findViewById(R.id.rotate);
+        alpha = findViewById(R.id.alpha);
+        scale = findViewById(R.id.scale);
+        resource = findViewById(R.id.resource);
+        animator = findViewById(R.id.animator);
+        animators = findViewById(R.id.animators);
     }
+
+    public void translate(View view) {
+        TestActivity1_Generator.playTranslateAnimations(this);
+    }
+
+    public void rotate(View view) {
+        TestActivity1_Generator.playRotateRotate(this);
+    }
+
+    public void alpha(View view) {
+        TestActivity1_Generator.playAlphaAlpha(this);
+    }
+
+    public void scale(View view) {
+        TestActivity1_Generator.playScaleScale(this);
+    }
+
+    public void resource(View view){
+        TestActivity1_Generator.playResourceResource(this);
+    }
+
+    public void animator(View view){
+        TestActivity1_Generator.playAnimatorAnimator(this);
+    }
+
+    public void animators(View view){
+       TestActivity1_Generator.playAnimatorsAnimators(this);
+    }
+
 }

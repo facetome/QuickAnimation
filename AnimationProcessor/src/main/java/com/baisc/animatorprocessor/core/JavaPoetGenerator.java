@@ -37,8 +37,8 @@ import javax.lang.model.element.Modifier;
 public class JavaPoetGenerator implements GenerateCode {
 
     private static final String GENERATOR_SUFFIX = "_Generator";
-    private static final String BASE_PACKAGE_PATH =  "com.baisc.animationcore.";
-    private static final String BASE_ANIMATION_PATH = BASE_PACKAGE_PATH + "animation";
+    private static final String BASE_PACKAGE_PATH = "com.baisc.animationcore.";
+    private static final String BASE_ANIMATION_PATH = BASE_PACKAGE_PATH + "animation.";
 
 
     @Override
@@ -48,7 +48,7 @@ public class JavaPoetGenerator implements GenerateCode {
         Iterator<Entry<String, List<Annotation>>> iterator = annotations.entrySet().iterator();
         while (iterator.hasNext()) {
             Entry<String, List<Annotation>> entry = iterator.next();
-            MethodSpec method = convertAnnotationMethod(entry.getKey(), entry.getValue());
+            MethodSpec method = convertAnnotationMethod(clazz, entry.getKey(), entry.getValue());
             if (method != null) {
                 classSpecBuilder.addMethod(method);
             }
@@ -70,15 +70,12 @@ public class JavaPoetGenerator implements GenerateCode {
             throw new IllegalArgumentException("className is not allowed null or empty");
         }
         String simpleClassName = ClassUtils.getClassSimpleName(className);
-        ClassName parent = ClassName.get(ClassUtils.getPackageName(className), simpleClassName);
-        TypeVariableName t = TypeVariableName.get("T", parent);
         return TypeSpec.classBuilder(simpleClassName + GENERATOR_SUFFIX)
-                .addModifiers(Modifier.PUBLIC, Modifier.FINAL)
-                .addTypeVariable(t);
+                .addModifiers(Modifier.PUBLIC, Modifier.FINAL);
     }
 
 
-    private MethodSpec convertAnnotationMethod(String viewName, List<Annotation> annotations) {
+    private MethodSpec convertAnnotationMethod(String clazz, String viewName, List<Annotation> annotations) {
         if (annotations != null && !annotations.isEmpty()) {
             Annotation annotation;
             MethodCreator creator;
@@ -95,14 +92,14 @@ public class JavaPoetGenerator implements GenerateCode {
                 creator = createMethodCreator(annotation);
             }
             if (creator != null) {
-                return new MethodCreatorProxy(creator).createMethod(viewName, annotation);
+                return new MethodCreatorProxy(creator).createMethod(clazz, viewName, annotation);
 
             }
         }
         return null;
     }
 
-    private static MethodCreator createMethodCreator(Annotation annotation){
+    private static MethodCreator createMethodCreator(Annotation annotation) {
         if (annotation != null) {
             MethodCreator creator = null;
             String animationClass = annotation.mAnnotationClass.getName();
@@ -128,7 +125,7 @@ public class JavaPoetGenerator implements GenerateCode {
 
 
     interface MethodCreator {
-        MethodSpec createMethod(String viewName, Annotation annotation);
+        MethodSpec createMethod(String clazzName, String viewName, Annotation annotation);
     }
 
     private class MethodCreatorProxy implements MethodCreator {
@@ -140,8 +137,8 @@ public class JavaPoetGenerator implements GenerateCode {
         }
 
         @Override
-        public MethodSpec createMethod(String viewName, Annotation annotation) {
-            return mMethodCreator.createMethod(viewName, annotation);
+        public MethodSpec createMethod(String clazz, String viewName, Annotation annotation) {
+            return mMethodCreator.createMethod(clazz, viewName, annotation);
         }
 
     }
@@ -153,20 +150,24 @@ public class JavaPoetGenerator implements GenerateCode {
 
     private static abstract class AnimationMethodCreator implements MethodCreator {
         @Override
-        public MethodSpec createMethod(String viewName, Annotation annotation) {
-            Builder builder = createMethodModifier(formatMethodName(viewName, animationType()));
+        public MethodSpec createMethod(String clazz, String viewName, Annotation annotation) {
+            Builder builder = createMethodModifier(clazz, formatMethodName(viewName, animationType()));
             createMethodContentEnter(builder);
             createMethodContentWithAnimationParams(builder, annotation);
             createMethodContentExit(builder, viewName);
             return builder.build();
         }
 
-        protected Builder createMethodModifier(String methodName) {
-            TypeVariableName t = TypeVariableName.get("T");
+        protected Builder createMethodModifier(String clazzName, String methodName) {
+            TypeVariableName targetVariable = TypeVariableName.get("T");
+            String returnTypeClazz = BASE_PACKAGE_PATH + "AnimationState";
+            ClassName parent = ClassName.get(ClassUtils.getPackageName(clazzName), ClassUtils.getClassSimpleName(clazzName));
+            TypeVariableName clazzTypeVariable = TypeVariableName.get("T", parent);
             return MethodSpec.methodBuilder(methodName)
-                    .addModifiers(Modifier.FINAL, Modifier.PUBLIC)
-                    .returns(void.class)
-                    .addParameter(t, "target");
+                    .addModifiers(Modifier.FINAL, Modifier.PUBLIC, Modifier.STATIC)
+                    .returns(ClassName.get(ClassUtils.getPackageName(returnTypeClazz), ClassUtils.getClassSimpleName(returnTypeClazz)))
+                    .addParameter(targetVariable, "target")
+                    .addTypeVariable(clazzTypeVariable);
         }
 
         protected abstract String animationType();
@@ -197,7 +198,7 @@ public class JavaPoetGenerator implements GenerateCode {
                         ClassUtils.getClassSimpleName(annotation.mInterpolatorClass));
                 builder.addStatement("builder.interpolator(new $T())", interpolator);
             }
-            if (!TextUtils.isEmpty(annotation.mEvaluatorClass)){
+            if (!TextUtils.isEmpty(annotation.mEvaluatorClass)) {
                 ClassName evaluator = ClassName.get(ClassUtils.getPackageName(annotation.mEvaluatorClass),
                         ClassUtils.getClassSimpleName(annotation.mEvaluatorClass));
                 builder.addStatement("builder.evaluator(new $T())", evaluator);
@@ -206,7 +207,7 @@ public class JavaPoetGenerator implements GenerateCode {
         }
 
         protected void createMethodContentExit(Builder builder, String targetView) {
-            builder.addStatement("$L.play(target.$L)", animationType().toLowerCase(), targetView);
+            builder.addStatement("return $L.play(target.$L)", animationType().toLowerCase(), targetView);
         }
     }
 
@@ -262,11 +263,11 @@ public class JavaPoetGenerator implements GenerateCode {
             super.createMethodContentWithAnimationParams(builder, annotation);
             String rotatePath = BASE_ANIMATION_PATH + "Rotate";
             Rotate rotate = (Rotate) annotation;
-            builder.addStatement("$T $L = builder.asRotate($Lf, $Lf, $Lf, $Lf)",
+            builder.addStatement("$T $L = builder.asRotate($Lf, $Lf, $L,$Lf, $L, $Lf)",
                     ClassName.get(ClassUtils.getPackageName(rotatePath), ClassUtils
                             .getClassSimpleName(rotatePath)),
                     animationType().toLowerCase(),
-                    rotate.fromDegree, rotate.toDegree, rotate.pivotXValue, rotate.pivotYValue);
+                    rotate.fromDegree, rotate.toDegree, rotate.pivotYType, rotate.pivotXValue, rotate.pivotYType, rotate.pivotYValue);
             return builder;
         }
 
@@ -282,12 +283,12 @@ public class JavaPoetGenerator implements GenerateCode {
         protected Builder createMethodContentWithAnimationParams(Builder builder, Annotation annotation) {
             super.createMethodContentWithAnimationParams(builder, annotation);
             Scale scale = (Scale) annotation;
-            String scalePath =  BASE_ANIMATION_PATH + "Scale";
-            builder.addStatement("$T $L = builder.asScale($Lf, $Lf, $Lf, $Lf))",
+            String scalePath = BASE_ANIMATION_PATH + "Scale";
+            builder.addStatement("$T $L = builder.asScale($Lf, $Lf, $Lf, $Lf, $L, $Lf, $L,$Lf)",
                     ClassName.get(ClassUtils.getPackageName(scalePath),
                             ClassUtils.getClassSimpleName(scalePath)),
                     animationType().toLowerCase(),
-                    scale.fromX, scale.toX, scale.fromY, scale.toX);
+                    scale.fromX, scale.toX, scale.fromY, scale.toX, scale.xType, scale.pivotXValue, scale.yType, scale.pivotYValue);
             return builder;
         }
 
@@ -330,7 +331,7 @@ public class JavaPoetGenerator implements GenerateCode {
             for (float value : values) {
                 formatValue.add(value);
             }
-            String animatorPath = BASE_ANIMATION_PATH +"BaseObjectAnimator";
+            String animatorPath = BASE_ANIMATION_PATH + "BaseObjectAnimator";
             builder.addStatement("$T $L = builder.asObjectAnimator($S).setAutoCancel($L).setFloatValues($L).create()",
                     ClassName.get(ClassUtils.getPackageName(animatorPath),
                             ClassUtils.getClassSimpleName(animatorPath)),
@@ -354,7 +355,7 @@ public class JavaPoetGenerator implements GenerateCode {
         @Override
         protected Builder createMethodContentWithAnimationParams(Builder builder, Annotation annotation) {
             super.createMethodContentWithAnimationParams(builder, annotation);
-            String objectPath =  BASE_ANIMATION_PATH + "BaseObjectAnimator";
+            String objectPath = BASE_ANIMATION_PATH + "BaseObjectAnimator";
             ClassName receiverAnimator = ClassName.get(ClassUtils.getPackageName(objectPath),
                     ClassUtils.getClassSimpleName(objectPath));
             Animators animators = (Animators) annotation;
@@ -399,15 +400,21 @@ public class JavaPoetGenerator implements GenerateCode {
 
         @Override
         protected Builder createMethodContentWithAnimationParams(Builder builder, Annotation annotation) {
+            Animations animations = (Animations) annotation;
+            Annotation child = animations.getChild(0);
+            if (child != null) {
+                animations.mParams = child.mParams;
+            }
             super.createMethodContentWithAnimationParams(builder, annotation);
             String animationsPath = BASE_ANIMATION_PATH + "AnimationSet";
             ClassName setReceiver = ClassName.get(ClassUtils.getPackageName(animationsPath),
                     ClassUtils.getClassSimpleName(animationsPath));
             builder.addStatement("$T $L = builder.asViewAnimation(true)", setReceiver, animationType().toLowerCase());
-            Animations animations = (Animations) annotation;
+
             for (Annotation animation : animations.getChilds()) {
+                animation.mParams = null; //使用父类
                 AnimationMethodCreator creator = (AnimationMethodCreator) createMethodCreator(animation);
-                if (creator != null){
+                if (creator != null) {
                     creator.createMethodContentWithAnimationParams(builder, animation);
                     builder.addStatement("$L.addAnimations($L)", animationType().toLowerCase(),
                             creator.animationType().toLowerCase());

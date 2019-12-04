@@ -10,9 +10,10 @@ import com.baisc.animationcore.QuickAnimation.Builder;
 
 public class Rotate extends ViewAnimation {
 
-    public Rotate(Builder builder, float fromDegree, float toDegree, float pivotXValue, float pivotYValue) {
+    public Rotate(Builder builder, float fromDegree, float toDegree, int xType, float pivotXValue,
+            int yType, float pivotYValue) {
         super(builder);
-        mAnimation = new RotateAnimation(fromDegree, toDegree, pivotXValue, pivotYValue);
+        mAnimation = new RotateAnimation(fromDegree, toDegree, xType, pivotXValue, yType, pivotYValue);
         create();
     }
 }

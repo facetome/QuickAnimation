@@ -19,7 +19,7 @@ import java.util.List;
 public class AnimatorSet extends BaseObjectAnimator<Builder> {
 
     private boolean isPlayTogether = true;
-    private List<Animator> animators = new ArrayList<>();
+    private List<Animator> animators;
 
 
     AnimatorSet(Builder builder) {
@@ -33,17 +33,21 @@ public class AnimatorSet extends BaseObjectAnimator<Builder> {
             animation.cancel();
         }
         view.clearAnimation();
-        android.animation.AnimatorSet animator = (android.animation.AnimatorSet) mAnimator;
-        if (animator != null) {
-            if (animator.isRunning()) {
-                animator.cancel();
+        android.animation.AnimatorSet set = (android.animation.AnimatorSet) mAnimator;
+        if (set != null) {
+            if (set.isRunning()) {
+                set.cancel();
             }
-            animator.setTarget(view);
+            set.setTarget(view);
+            for (Animator animator: animators){
+                animator.setTarget(view);
+            }
             if (isPlayTogether) {
-                animator.playTogether(animators);
+                set.playTogether(animators);
             } else {
-                animator.playSequentially(animators);
+                set.playSequentially(animators);
             }
+            set.start();
         }
         return this;
     }
@@ -57,8 +61,12 @@ public class AnimatorSet extends BaseObjectAnimator<Builder> {
 
     @Override
     protected Animator createAnimator(Builder builder) {
+        if (animators == null) {
+            animators = new ArrayList<>();
+        }
+        animators.clear();
         android.animation.AnimatorSet set = new android.animation.AnimatorSet();
-        Builder newBuilder =  builder;
+        Builder newBuilder = builder;
         List<BaseObjectAnimator> animatorWraps = newBuilder.animators;
         if (animatorWraps != null && !animatorWraps.isEmpty()) {
             for (BaseObjectAnimator animator : animatorWraps) {
@@ -85,7 +93,7 @@ public class AnimatorSet extends BaseObjectAnimator<Builder> {
 
 
         public Builder playTogether(boolean together) {
-            isPlayTogether = true;
+            isPlayTogether = together;
             return this;
         }
 

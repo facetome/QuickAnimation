@@ -6,17 +6,9 @@
     android:gravity="center">
 
     <TextView
+        android:id="@+id/translate"
         android:layout_width="100dp"
         android:layout_height="40dp"
-        android:gravity="center"
-        android:background="@color/colorAccent"
-        android:onClick="processor"
-        android:text="注解实现" />
-
-    <TextView
-        android:layout_width="100dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="10dp"
         android:gravity="center"
         android:background="@color/colorAccent"
         android:onClick="translate"
@@ -24,6 +16,7 @@
 
 
     <TextView
+        android:id="@+id/rotate"
         android:layout_width="100dp"
         android:layout_height="40dp"
         android:gravity="center"
@@ -33,6 +26,7 @@
         android:text="旋转" />
 
     <TextView
+        android:id="@+id/alpha"
         android:layout_width="100dp"
         android:layout_height="40dp"
         android:gravity="center"
@@ -42,6 +36,7 @@
         android:text="透明度" />
 
     <TextView
+        android:id="@+id/scale"
         android:layout_width="100dp"
         android:layout_height="40dp"
         android:gravity="center"
@@ -51,6 +46,7 @@
         android:text="缩放" />
 
     <TextView
+        android:id="@+id/resource"
         android:layout_width="100dp"
         android:layout_height="40dp"
         android:gravity="center"
@@ -70,6 +66,7 @@
         android:text="animator" />
 
     <TextView
+        android:id="@+id/animators"
         android:layout_width="100dp"
         android:layout_height="40dp"
         android:gravity="center"
@@ -77,14 +74,5 @@
         android:onClick="animators"
         android:layout_marginTop="10dp"
         android:text="animators" />
-
-    <TextView
-        android:layout_width="100dp"
-        android:layout_height="40dp"
-        android:gravity="center"
-        android:background="@color/colorAccent"
-        android:onClick="animations"
-        android:layout_marginTop="10dp"
-        android:text="animations" />
 
 </LinearLayout>

@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.graphics.ColorSpace.Model;
+import android.view.animation.Animation;
 
 import com.baisc.animationcore.animation.Alpha;
 import com.baisc.animationcore.animation.AnimationSet;
@@ -24,16 +25,6 @@ import java.lang.ref.WeakReference;
 
 public class QuickAnimation {
 
-    static final int TRANSLATE = 1;
-
-    static final int ROTATE = 2;
-
-    static final int SCALE = 3;
-
-    static final int ALPHA = 4;
-
-    //xml动画
-    static final int RESOURCE = 5;
 
     public static final int INFINITE = -1;
 
@@ -41,6 +32,11 @@ public class QuickAnimation {
 
     public static final int REVERSE = 2;
 
+    public static final int ABOSOLUTE = Animation.ABSOLUTE;
+
+    public static final int RELATIVE_TO_SELF = Animation.RELATIVE_TO_SELF;
+
+    public static final int RELATIVE_TO_PARENT = Animation.RELATIVE_TO_PARENT;
 
     public static Builder with(Activity context) {
         return new Builder(context);
@@ -71,8 +67,6 @@ public class QuickAnimation {
     }
 
     public static class Builder {
-
-        private AnimationType animationType;
 
         private TimeInterpolator interpolator;
 
@@ -165,15 +159,15 @@ public class QuickAnimation {
         }
 
         public Translate astTranslate(float fromX, float fromY, float toX, float toY) {
-            return new Translate(this, fromX, fromY, toX, toY);
+            return new Translate(this, fromX, toX, fromY, toY);
         }
 
         public Alpha asAlpha(float fromAlpha, float toAlpha) {
             return new Alpha(this, fromAlpha, toAlpha);
         }
 
-        public Scale asScale(float fromX, float toX, float fromY, float toY) {
-            return new Scale(this, fromX, toX, fromY, toY);
+        public Scale asScale(float fromX, float toX, float fromY, float toY, int xType, float pivotX,int yType, float pivotY) {
+            return new Scale(this, fromX, toX, fromY, toY, xType, pivotX, yType, pivotY);
         }
 
         public ResourceAnimation asResourceAnimation(int id) {
@@ -187,8 +181,8 @@ public class QuickAnimation {
             return new ResourceAnimation(this, context, id);
         }
 
-        public Rotate asRotate(float fromDegree, float toDegree, float pivotXValue, float pivotYValue) {
-            return new Rotate(this, fromDegree, toDegree, pivotXValue, pivotYValue);
+        public Rotate asRotate(float fromDegree, float toDegree, int xType, float pivotXValue, int yType, float pivotYValue) {
+            return new Rotate(this, fromDegree, toDegree, xType, pivotXValue, yType, pivotYValue);
         }
 
         public ObjectAnimator.Builder asObjectAnimator(String propertyName) {

@@ -21,13 +21,13 @@ public @interface Scale {
     float toY();
 
     /**
-     * Animation.ABSOLUTE default.
+     * * Animation.ABSOLUTE default.
      * @return
      */
     int pivotXType() default 0;
 
     /**
-     * Animation.ABSOLUTE default.
+     * * Animation.ABSOLUTE default.
      * @return
      */
     int pivotYType() default 0;
