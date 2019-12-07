@@ -11,7 +11,7 @@ public class Alpha extends Annotation {
 
     public float toAlpha;
 
-    public static String ANNOTATION_NAME = com.baisc.animationannomation.Alpha.class.getName();
+    public static String ANNOTATION_NAME = com.baisc.animationannotation.Alpha.class.getName();
 
 
     @Override
@@ -21,7 +21,7 @@ public class Alpha extends Annotation {
 
     public Alpha(VariableElement mirror) {
         super(mirror);
-        com.baisc.animationannomation.Alpha alpha = mirror.getAnnotation(com.baisc.animationannomation.Alpha.class);
+        com.baisc.animationannotation.Alpha alpha = mirror.getAnnotation(com.baisc.animationannotation.Alpha.class);
         fromAlpha = alpha.fromAlpha();
         toAlpha = alpha.toAlpha();
     }

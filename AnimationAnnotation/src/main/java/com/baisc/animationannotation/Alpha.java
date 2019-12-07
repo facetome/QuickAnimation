@@ -1,4 +1,4 @@
-package com.baisc.animationannomation;
+package com.baisc.animationannotation;
 
 
 import java.lang.annotation.ElementType;

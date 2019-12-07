@@ -8,7 +8,7 @@ import javax.lang.model.element.VariableElement;
 
 public class Animator extends Annotation {
 
-    public static final String ANNOTATION_NAME = com.baisc.animationannomation.Animator.class.getName();
+    public static final String ANNOTATION_NAME = com.baisc.animationannotation.Animator.class.getName();
 
     public String property;
 
@@ -22,11 +22,11 @@ public class Animator extends Annotation {
     }
 
     public Animator(VariableElement mirror) {
-        this(mirror, mirror.getAnnotation(com.baisc.animationannomation.Animator.class));
+        this(mirror, mirror.getAnnotation(com.baisc.animationannotation.Animator.class));
 
     }
 
-    public Animator(VariableElement element, com.baisc.animationannomation.Animator mirror) {
+    public Animator(VariableElement element, com.baisc.animationannotation.Animator mirror) {
         super(element);
         property = mirror.property();
         values = mirror.value();

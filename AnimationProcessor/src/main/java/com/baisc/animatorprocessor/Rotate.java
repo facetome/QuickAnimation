@@ -8,7 +8,7 @@ import javax.lang.model.element.VariableElement;
 
 public class Rotate extends Annotation {
 
-    public static String ANNOTATION_NAME = com.baisc.animationannomation.Rotate.class.getName();
+    public static String ANNOTATION_NAME = com.baisc.animationannotation.Rotate.class.getName();
 
     public float fromDegree;
 
@@ -29,7 +29,7 @@ public class Rotate extends Annotation {
 
     public Rotate(VariableElement mirror) {
         super(mirror);
-        com.baisc.animationannomation.Rotate rotate = mirror.getAnnotation(com.baisc.animationannomation.Rotate.class);
+        com.baisc.animationannotation.Rotate rotate = mirror.getAnnotation(com.baisc.animationannotation.Rotate.class);
         fromDegree = rotate.fromDegree();
         toDegree = rotate.toDegree();
         pivotXType = rotate.pivotXType();

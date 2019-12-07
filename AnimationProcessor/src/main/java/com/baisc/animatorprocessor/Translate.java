@@ -20,7 +20,7 @@ public class Translate extends Annotation {
 
     public int yType;
 
-    public static String ANNOTATION_NAME = com.baisc.animationannomation.Translate.class.getName();
+    public static String ANNOTATION_NAME = com.baisc.animationannotation.Translate.class.getName();
 
     @Override
     public byte viewType() {
@@ -29,7 +29,7 @@ public class Translate extends Annotation {
 
     public Translate(VariableElement mirror) {
         super(mirror);
-        com.baisc.animationannomation.Translate translate = mirror.getAnnotation(com.baisc.animationannomation.Translate.class);
+        com.baisc.animationannotation.Translate translate = mirror.getAnnotation(com.baisc.animationannotation.Translate.class);
         fromX = translate.fromX();
         fromY = translate.fromY();
         toX = translate.toX();

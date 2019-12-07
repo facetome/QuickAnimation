@@ -1,11 +1,6 @@
 package com.baisc.animatorprocessor;
 
-import com.baisc.animationannomation.AnimationParams;
-
-import java.util.Map;
-
-import javax.lang.model.element.AnnotationValue;
-import javax.lang.model.element.ExecutableElement;
+import com.baisc.animationannotation.AnimationParams;
 
 /**
  * Created by basic on 2019/7/14.

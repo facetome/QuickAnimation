@@ -1,8 +1,8 @@
 package com.baisc.animatorprocessor.core;
 
-import com.baisc.animationannomation.AnimationParams;
-import com.baisc.animationannomation.Interpolator;
-import com.baisc.animationannomation.TypeEvaluator;
+import com.baisc.animationannotation.AnimationParams;
+import com.baisc.animationannotation.Interpolator;
+import com.baisc.animationannotation.TypeEvaluator;
 import com.baisc.animatorprocessor.Alpha;
 import com.baisc.animatorprocessor.Animator;
 import com.baisc.animatorprocessor.Animators;

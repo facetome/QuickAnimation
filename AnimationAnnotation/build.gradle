@@ -1,0 +1,16 @@
+apply plugin: 'java-library'
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+}
+
+task uploadJar(type:Copy, group:'build', dependsOn:'clean'){
+   delete 'release/annotation.jar'
+    dependsOn 'jar'
+    from 'build/libs/AnimationAnnotation.jar'
+    into 'release/'
+    rename('AnimationAnnotation.jar', 'annotation.jar')
+}
+
+sourceCompatibility = "1.7"
+targetCompatibility = "1.7"

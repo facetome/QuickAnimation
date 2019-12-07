@@ -1,30 +1,33 @@
-package com.baisc.animationannomation;
+package com.baisc.animationannotation;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * RotateAnimation.
+ * ScaleAnimation.
  */
 
-@Target(ElementType.FIELD)
 @Retention(RetentionPolicy.CLASS)
-public @interface Rotate {
+@Target(ElementType.FIELD)
+public @interface Scale {
 
-    float fromDegree();
+    float fromX();
 
-    float toDegree();
+    float fromY();
+
+    float toX();
+
+    float toY();
 
     /**
-     * Animation.ABSOLUTE default.
-     *
+     * * Animation.ABSOLUTE default.
      * @return
      */
     int pivotXType() default 0;
 
     /**
-     * Animation.ABSOLUTE default.
+     * * Animation.ABSOLUTE default.
      * @return
      */
     int pivotYType() default 0;

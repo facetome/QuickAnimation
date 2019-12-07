@@ -6,16 +6,16 @@ import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.TextView;
 
-import com.baisc.animationannomation.Alpha;
-import com.baisc.animationannomation.AnimationParams;
-import com.baisc.animationannomation.Animator;
-import com.baisc.animationannomation.Animators;
-import com.baisc.animationannomation.Interpolator;
-import com.baisc.animationannomation.ResourceAnimation;
-import com.baisc.animationannomation.Rotate;
-import com.baisc.animationannomation.Scale;
-import com.baisc.animationannomation.Translate;
-import com.baisc.animationannomation.TypeEvaluator;
+import com.baisc.animationannotation.Alpha;
+import com.baisc.animationannotation.AnimationParams;
+import com.baisc.animationannotation.Animator;
+import com.baisc.animationannotation.Animators;
+import com.baisc.animationannotation.Interpolator;
+import com.baisc.animationannotation.ResourceAnimation;
+import com.baisc.animationannotation.Rotate;
+import com.baisc.animationannotation.Scale;
+import com.baisc.animationannotation.Translate;
+import com.baisc.animationannotation.TypeEvaluator;
 
 /**
  * Created by basic on 2019/7/14.

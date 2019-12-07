@@ -19,3 +19,8 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+
+#手动启用support keep注解
+#http://tools.android.com/tech-docs/support-annotations
+

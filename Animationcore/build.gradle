@@ -3,16 +3,11 @@ apply plugin: 'com.android.library'
 android {
     compileSdkVersion 27
 
-
-
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 27
         versionCode 1
         versionName "1.0"
-
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
     }
 
     buildTypes {
@@ -23,6 +18,28 @@ android {
     }
 
 }
+
+task deleteOldAAR(type: Delete, dependsOn: 'assembleRelease') {
+   delete 'release/annimationCore.aar'
+}
+
+task findLibs(type:Copy,dependsOn:deleteOldAAR){
+
+    from 'build/outputs/aar/' + 'Animationcore-release.aar'
+
+    into 'release/'
+    rename('Animationcore-release.aar', 'annimationCore.aar')
+}
+
+task uploadAAR(group:'build') {
+    dependsOn 'clean'
+    dependsOn 'findLibs'
+
+}
+
+
+
+
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])

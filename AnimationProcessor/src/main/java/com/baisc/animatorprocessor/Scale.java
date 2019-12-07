@@ -8,7 +8,7 @@ import javax.lang.model.element.VariableElement;
 
 public class Scale extends Annotation {
 
-    public static String ANNOTATION_NAME = com.baisc.animationannomation.Scale.class.getName();
+    public static String ANNOTATION_NAME = com.baisc.animationannotation.Scale.class.getName();
 
     public float fromX;
 
@@ -33,7 +33,7 @@ public class Scale extends Annotation {
 
     public Scale(VariableElement mirror) {
         super(mirror);
-        com.baisc.animationannomation.Scale scale = mirror.getAnnotation(com.baisc.animationannomation.Scale.class);
+        com.baisc.animationannotation.Scale scale = mirror.getAnnotation(com.baisc.animationannotation.Scale.class);
         fromX = scale.fromX();
         fromY = scale.fromY();
         toX = scale.toX();
