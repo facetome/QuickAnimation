@@ -37,7 +37,10 @@ public class TestActivity extends AppCompatActivity {
     }
 
     public void translate(View view) {
-        QuickAnimation.with(this).fillAfter(false).repeatCount(1).repeatMode(QuickAnimation.REVERSE)
+        QuickAnimation.with(this)
+                .fillAfter(false)
+                .repeatCount(1)
+                .repeatMode(QuickAnimation.REVERSE)
                 .interpolator(new AccelerateDecelerateInterpolator())
                 .delay(0)
                 .duration(1000)
@@ -45,7 +48,10 @@ public class TestActivity extends AppCompatActivity {
     }
 
     public void rotate(View view) {
-        QuickAnimation.with(this).fillAfter(true).repeatCount(2).repeatMode(QuickAnimation.REVERSE)
+        QuickAnimation.with(this)
+                .fillAfter(true)
+                .repeatCount(2)
+                .repeatMode(QuickAnimation.REVERSE)
                 .interpolator(new AccelerateDecelerateInterpolator())
                 .delay(1000)
                 .duration(1000)
@@ -70,21 +76,30 @@ public class TestActivity extends AppCompatActivity {
                         Log.d("basic", "onRepeat");
                     }
                 })
-                .asRotate(0, 360, QuickAnimation.ABOSOLUTE, view.getWidth() / 2, QuickAnimation
-                        .ABOSOLUTE, view.getHeight() / 2).play(view);
+                .asRotate(0, 360, QuickAnimation.ABOSOLUTE, view.getWidth() / 2, QuickAnimation.ABOSOLUTE, view.getHeight() / 2)
+                .play(view);
     }
 
     public void alpha(View view) {
-        QuickAnimation.with(this).repeatMode(QuickAnimation.RESTART).repeatCount(1).duration
-                (1000).delay(100).interpolator(new AccelerateInterpolator())
-                .fillBefore(true).asAlpha(1, 0).play(view);
+        QuickAnimation.with(this)
+                .repeatMode(QuickAnimation.RESTART)
+                .repeatCount(1)
+                .duration(1000)
+                .delay(100).interpolator(new AccelerateInterpolator())
+                .fillBefore(true)
+                .asAlpha(1, 0)
+                .play(view);
     }
 
     public void scale(View view) {
-        QuickAnimation.with(this).repeatMode(QuickAnimation.REVERSE).repeatCount(1).duration
-                (1000).delay(100).interpolator(new AccelerateInterpolator())
-                .asScale(1, 2, 1, 2, QuickAnimation.ABOSOLUTE, view.getWidth() / 2f,
-                        QuickAnimation.ABOSOLUTE, view.getHeight() / 2f).play(view);
+        QuickAnimation.with(this)
+                .repeatMode(QuickAnimation.REVERSE)
+                .repeatCount(1).
+                duration(1000)
+                .delay(100)
+                .interpolator(new AccelerateInterpolator())
+                .asScale(1, 2, 1, 2, QuickAnimation.ABOSOLUTE, view.getWidth() / 2f, QuickAnimation.ABOSOLUTE, view.getHeight() / 2f)
+                .play(view);
     }
 
     public void resource(View view) {
@@ -92,8 +107,12 @@ public class TestActivity extends AppCompatActivity {
     }
 
     public void animator(View view) {
-        QuickAnimation.with(this).repeatMode(QuickAnimation.REVERSE).repeatCount(1).duration
-                (1000).delay(500).interpolator(new AccelerateInterpolator()).callback(new OnAnimationCallback<BaseAnimation>() {
+        QuickAnimation.with(this)
+                .repeatMode(QuickAnimation.REVERSE)
+                .repeatCount(1)
+                .duration(1000)
+                .delay(500).interpolator(new AccelerateInterpolator())
+                .callback(new OnAnimationCallback<BaseAnimation>() {
             @Override
             public void onStart(BaseAnimation animation) {
                 Log.d("basic", "onstart");
@@ -115,7 +134,8 @@ public class TestActivity extends AppCompatActivity {
             }
         })
                 .asObjectAnimator("TranslationX").setFloatValues(0, 100, 200)
-                .create().play(view);
+                .create()
+                .play(view);
     }
 
     public void animators(View view) {
@@ -153,13 +173,14 @@ public class TestActivity extends AppCompatActivity {
                 .RESTART).delay(100)
                 .duration(1000);
         com.baisc.animationcore.animation.Translate translate = builder.astTranslate(0, 0, 100, 100);
-        Scale scale = builder.asScale(1, 2, 1, 2, QuickAnimation.ABOSOLUTE, view.getWidth()
-                / 2, QuickAnimation.ABOSOLUTE, view.getHeight() / 2);
+        Scale scale = builder.asScale(1, 2, 1, 2, QuickAnimation.ABOSOLUTE, view.getWidth() / 2, QuickAnimation.ABOSOLUTE, view.getHeight() / 2);
 
-        Rotate rotate = builder.asRotate(0, 360, QuickAnimation.ABOSOLUTE, view.getWidth() /
-                2f, QuickAnimation.ABOSOLUTE, view.getHeight() / 2f);
-        builder.asViewAnimation(true).addAnimations(translate)
-                .addAnimations(rotate).addAnimations(scale).play(view);
+        Rotate rotate = builder.asRotate(0, 360, QuickAnimation.ABOSOLUTE, view.getWidth() / 2f, QuickAnimation.ABOSOLUTE, view.getHeight() / 2f);
+        builder.asViewAnimation(true)
+                .addAnimations(translate)
+                .addAnimations(rotate)
+                .addAnimations(scale)
+                .play(view);
     }
 
 
