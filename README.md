@@ -14,9 +14,9 @@ QuickAnimation整合了现有的view动画和属性动画，简化了在日常�
 @AnimationParams(duration = 1000, delayTime = 100)
 TextView rotate;
 
-平移动画			
-@AnimationParams(duration = 1000, delayTime = 100)
-@Translate(fromX = 0, toX = 100, fromY = 0, toY = 100)
+平移动画   
+@AnimationParams(duration = 1000, delayTime = 100)  
+@Translate(fromX = 0, toX = 100, fromY = 0, toY = 100)  
 TextView translate;
 
 透明度动画
