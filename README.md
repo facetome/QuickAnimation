@@ -8,21 +8,17 @@ QuickAnimation整合了现有的view动画和属性动画，简化了在日常�
 、Animators以及@AnimationParams、@TypeEvaluator、@Interpolator 4个参数注解.
 
 例:
-
-旋转动画
-
+旋转动画		      
 @Rotate(fromDegree = 0, toDegree = 360f, pivotXType = 1, pivotYType = 1, pivotXValue = 0.5f, pivotYValue = 0.5f)
 @AnimationParams(duration = 1000, delayTime = 100)
 TextView rotate;
 
-平移动画
-
+平移动画			
 @AnimationParams(duration = 1000, delayTime = 100)
 @Translate(fromX = 0, toX = 100, fromY = 0, toY = 100)
 TextView translate;
 
-透明度动画
-
+透明度动画       
 @AnimationParams(duration = 1000, delayTime = 100)
 @Alpha(fromAlpha = 1f, toAlpha = 0.5f)
 TextView alpha;
