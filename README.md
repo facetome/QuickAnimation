@@ -51,7 +51,7 @@ TextView animators;
 @Alpha(fromAlpha = 1f, toAlpha = 0.5f)  
 TextView animations;
 
-调用一次build  project, android plugin会自动为当前activity/fragment生成一个当前类名+.Generator的注解类并为当前注解的view生成静态方  
+调用一次build  project, android plugin会自动为当前activity/fragment生成一个当前类名+.Generator的注解类并为当前注解的view生成静态方法 
 例：  
 public void translate(View view) {  
       AnnotationTestActivity1_Generator.playTranslateAnimations(this);  
