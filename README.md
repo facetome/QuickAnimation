@@ -1,2 +1,2 @@
 # QuickAnimation
-android animation
+####QuickAnimation整合了现有的view动画和属性动画，简化了在日常动画使用过程中繁琐的调用过程。同时引入了编译时注解，自动生成动画类，进一步减少了开发者编写动画的工作量。
