@@ -46,7 +46,7 @@ public class AnimationProcessor extends AbstractProcessor {
     private ProcessingEnvironment mEnvironment;
     private Messager mMessager;
 
-    private Map<String, Map<String, List<Annotation>>> mAnnomationMap = new HashMap<>();
+    private Map<String, Map<String, List<Annotation>>> mAnnotationMap = new HashMap<>();
 
     //用于过滤已经遍历过的一个元素.
     private Map<String, Element> filterElements = new HashMap<>();
@@ -83,7 +83,7 @@ public class AnimationProcessor extends AbstractProcessor {
                         if (filterElements.containsKey(clazz + variableName)) {
                             continue;
                         }
-                        findVariableAnnomationsByClass(clazz);
+                        findVariableAnnotationsByClass(clazz);
                         //获取到当前指定变量所保存的注解
                         List<Annotation> annotations = findAnnotations(clazz, variableName);
                         List<Annotation> annotation = AnnotationConverter.convert(mEnvironment.getMessager(), variableElement);
@@ -95,8 +95,8 @@ public class AnimationProcessor extends AbstractProcessor {
         }
         print();
 
-        if (mAnnomationMap != null && !mAnnomationMap.isEmpty()){
-            Iterator<Entry<String, Map<String, List<Annotation>>>> iterator = mAnnomationMap.entrySet().iterator();
+        if (mAnnotationMap != null && !mAnnotationMap.isEmpty()){
+            Iterator<Entry<String, Map<String, List<Annotation>>>> iterator = mAnnotationMap.entrySet().iterator();
             while (iterator.hasNext()){
                 Entry<String, Map<String, List<Annotation>>> entry = iterator.next();
                 mGenerator.generate(entry.getKey(), entry.getValue(), mEnvironment);
@@ -106,7 +106,7 @@ public class AnimationProcessor extends AbstractProcessor {
     }
 
     private void print(){
-       Iterator<Entry<String, Map<String, List<Annotation>>>>   iterator  = mAnnomationMap
+       Iterator<Entry<String, Map<String, List<Annotation>>>>   iterator  = mAnnotationMap
                .entrySet().iterator();
        while (iterator.hasNext()){
            Entry<String, Map<String, List<Annotation>>> entry = iterator.next();
@@ -141,17 +141,17 @@ public class AnimationProcessor extends AbstractProcessor {
     }
 
     //获取到指定类的所有变量的注解集。
-    private Map<String, List<Annotation>> findVariableAnnomationsByClass(String clazz) {
-        Map<String, List<Annotation>> clazzMap = mAnnomationMap.get(clazz);
+    private Map<String, List<Annotation>> findVariableAnnotationsByClass(String clazz) {
+        Map<String, List<Annotation>> clazzMap = mAnnotationMap.get(clazz);
         if (clazzMap == null) {
             clazzMap = new HashMap<>();
-            mAnnomationMap.put(clazz, clazzMap);
+            mAnnotationMap.put(clazz, clazzMap);
         }
         return clazzMap;
     }
 
     private List<Annotation> findAnnotations(String clazz, String variable) {
-        Map<String, List<Annotation>> map = findVariableAnnomationsByClass(clazz);
+        Map<String, List<Annotation>> map = findVariableAnnotationsByClass(clazz);
         List<Annotation> annotations = map.get(variable);
         if (annotations == null) {
             annotations = new ArrayList<>();

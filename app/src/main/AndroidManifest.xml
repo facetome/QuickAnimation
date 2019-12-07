@@ -16,7 +16,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".TestActivity1"
+        <activity android:name=".AnnotationTestActivity1"
             android:screenOrientation="portrait"/>
     </application>
 </manifest>

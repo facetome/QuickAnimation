@@ -1,8 +1,5 @@
 package com.baisc.basicanimator;
 
-import android.animation.AnimatorSet;
-import android.animation.ArgbEvaluator;
-import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,14 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.AccelerateInterpolator;
-import android.view.animation.DecelerateInterpolator;
-import android.widget.TextView;
 
-import com.baisc.animationannomation.Alpha;
-import com.baisc.animationannomation.AnimationParams;
-import com.baisc.animationannomation.Interpolators;
-import com.baisc.animationannomation.Translate;
-import com.baisc.animationannomation.TypeEvaluators;
 import com.baisc.animationcore.BaseAnimation;
 import com.baisc.animationcore.QuickAnimation;
 import com.baisc.animationcore.QuickAnimation.Builder;
@@ -42,7 +32,7 @@ public class TestActivity extends AppCompatActivity {
     }
 
     public void processor(View view) {
-        Intent intent = new Intent(this, TestActivity1.class);
+        Intent intent = new Intent(this, AnnotationTestActivity1.class);
         startActivity(intent);
     }
 

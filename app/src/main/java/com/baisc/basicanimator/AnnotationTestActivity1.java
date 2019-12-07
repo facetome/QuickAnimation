@@ -21,7 +21,7 @@ import com.baisc.animationannomation.TypeEvaluators;
  * Created by basic on 2019/7/14.
  */
 
-public class TestActivity1 extends TestActivity {
+public class AnnotationTestActivity1 extends TestActivity {
 
     @Interpolators(DecelerateInterpolator.class)
     @AnimationParams(duration = 1000, delayTime = 100)
@@ -69,31 +69,31 @@ public class TestActivity1 extends TestActivity {
     }
 
     public void translate(View view) {
-        TestActivity1_Generator.playTranslateAnimations(this);
+        AnnotationTestActivity1_Generator.playTranslateAnimations(this);
     }
 
     public void rotate(View view) {
-        TestActivity1_Generator.playRotateRotate(this);
+        AnnotationTestActivity1_Generator.playRotateRotate(this);
     }
 
     public void alpha(View view) {
-        TestActivity1_Generator.playAlphaAlpha(this);
+        AnnotationTestActivity1_Generator.playAlphaAlpha(this);
     }
 
     public void scale(View view) {
-        TestActivity1_Generator.playScaleScale(this);
+        AnnotationTestActivity1_Generator.playScaleScale(this);
     }
 
     public void resource(View view){
-        TestActivity1_Generator.playResourceResource(this);
+        AnnotationTestActivity1_Generator.playResourceResource(this);
     }
 
     public void animator(View view){
-        TestActivity1_Generator.playAnimatorAnimator(this);
+        AnnotationTestActivity1_Generator.playAnimatorAnimator(this);
     }
 
     public void animators(View view){
-       TestActivity1_Generator.playAnimatorsAnimators(this);
+        AnnotationTestActivity1_Generator.playAnimatorsAnimators(this);
     }
 
 }
