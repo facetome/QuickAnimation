@@ -5,12 +5,16 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Animator setEvaluator.
+ * 加速器.
  */
-
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.CLASS)
-public @interface TypeEvaluators {
+public @interface Interpolator {
 
+    /**
+     * 用于标记插值器名称，可以是系统插值器也可以是自定义插值器.
+     *
+     * @return 插值器
+     */
     Class<?> value();
 }

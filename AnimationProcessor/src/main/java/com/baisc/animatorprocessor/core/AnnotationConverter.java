@@ -1,8 +1,8 @@
 package com.baisc.animatorprocessor.core;
 
 import com.baisc.animationannomation.AnimationParams;
-import com.baisc.animationannomation.Interpolators;
-import com.baisc.animationannomation.TypeEvaluators;
+import com.baisc.animationannomation.Interpolator;
+import com.baisc.animationannomation.TypeEvaluator;
 import com.baisc.animatorprocessor.Alpha;
 import com.baisc.animatorprocessor.Animator;
 import com.baisc.animatorprocessor.Animators;
@@ -34,17 +34,17 @@ public final class AnnotationConverter {
         if (mirrors != null && !mirrors.isEmpty()) {
             AnimationParams animationParams = element.getAnnotation(AnimationParams.class);
             Params params = Params.convert(animationParams);
-            Interpolators interpolators = element.getAnnotation(Interpolators.class);
+            Interpolator interpolator = element.getAnnotation(Interpolator.class);
 
             String interpolatorClass = null;
-            if (interpolators != null) {
+            if (interpolator != null) {
                 try {
-                    interpolators.value();
+                    interpolator.value();
                 } catch (MirroredTypeException e) {
                     interpolatorClass = e.getTypeMirror().toString();
                 }
             }
-            TypeEvaluators evaluators = element.getAnnotation(TypeEvaluators.class);
+            TypeEvaluator evaluators = element.getAnnotation(TypeEvaluator.class);
             String evalutorClass = null;
             if (evaluators != null) {
                 try {

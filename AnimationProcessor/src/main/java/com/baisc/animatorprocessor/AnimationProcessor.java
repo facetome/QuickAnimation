@@ -2,14 +2,14 @@ package com.baisc.animatorprocessor;
 
 import com.baisc.animationannomation.Alpha;
 import com.baisc.animationannomation.AnimationParams;
-import com.baisc.animationannomation.Interpolators;
+import com.baisc.animationannomation.Interpolator;
 import com.baisc.animationannomation.Animator;
 import com.baisc.animationannomation.Animators;
 import com.baisc.animationannomation.ResourceAnimation;
 import com.baisc.animationannomation.Rotate;
 import com.baisc.animationannomation.Scale;
 import com.baisc.animationannomation.Translate;
-import com.baisc.animationannomation.TypeEvaluators;
+import com.baisc.animationannomation.TypeEvaluator;
 import com.baisc.animatorprocessor.core.AnnotationConverter;
 import com.baisc.animatorprocessor.core.GenerateCode;
 import com.baisc.animatorprocessor.core.GenerateProxy;
@@ -167,13 +167,13 @@ public class AnimationProcessor extends AbstractProcessor {
         Set<String> annotationTypes = new HashSet<>();
         annotationTypes.add(Alpha.class.getCanonicalName());
         annotationTypes.add(AnimationParams.class.getCanonicalName());
-        annotationTypes.add(Interpolators.class.getCanonicalName());
+        annotationTypes.add(Interpolator.class.getCanonicalName());
         annotationTypes.add(Animator.class.getCanonicalName());
         annotationTypes.add(ResourceAnimation.class.getCanonicalName());
         annotationTypes.add(Rotate.class.getCanonicalName());
         annotationTypes.add(Scale.class.getCanonicalName());
         annotationTypes.add(Translate.class.getCanonicalName());
-        annotationTypes.add(TypeEvaluators.class.getCanonicalName());
+        annotationTypes.add(TypeEvaluator.class.getCanonicalName());
         annotationTypes.add(Animators.class.getCanonicalName());
         return annotationTypes;
 

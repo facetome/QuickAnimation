@@ -10,12 +10,12 @@ import com.baisc.animationannomation.Alpha;
 import com.baisc.animationannomation.AnimationParams;
 import com.baisc.animationannomation.Animator;
 import com.baisc.animationannomation.Animators;
-import com.baisc.animationannomation.Interpolators;
+import com.baisc.animationannomation.Interpolator;
 import com.baisc.animationannomation.ResourceAnimation;
 import com.baisc.animationannomation.Rotate;
 import com.baisc.animationannomation.Scale;
 import com.baisc.animationannomation.Translate;
-import com.baisc.animationannomation.TypeEvaluators;
+import com.baisc.animationannomation.TypeEvaluator;
 
 /**
  * Created by basic on 2019/7/14.
@@ -23,7 +23,7 @@ import com.baisc.animationannomation.TypeEvaluators;
 
 public class AnnotationTestActivity1 extends TestActivity {
 
-    @Interpolators(DecelerateInterpolator.class)
+    @Interpolator(DecelerateInterpolator.class)
     @AnimationParams(duration = 1000, delayTime = 100)
     @Translate(fromX = 0, toX = 100, fromY = 0, toY = 100)
     @Alpha(fromAlpha = 1f, toAlpha = 0.5f)
@@ -49,8 +49,8 @@ public class AnnotationTestActivity1 extends TestActivity {
     TextView animator;
 
     @AnimationParams(duration = 1000, delayTime = 100)
-    @TypeEvaluators(TestEvaluator.class)
-    @Interpolators(DecelerateInterpolator.class)
+    @TypeEvaluator(TestEvaluator.class)
+    @Interpolator(DecelerateInterpolator.class)
     @Animators(value = {@Animator(property = "TranslationX", value = {0, 100}, autoCancel = true),
             @Animator(property = "TranslationY", value = {0, 100}, autoCancel = true)}, playTogether = true)
     TextView animators;
