@@ -183,6 +183,10 @@ public class TestActivity extends AppCompatActivity {
                 .play(view);
     }
 
+    public void fragment(View view){
+
+    }
+
 
     @Override
     protected void onDestroy() {

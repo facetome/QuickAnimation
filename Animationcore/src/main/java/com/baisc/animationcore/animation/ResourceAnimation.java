@@ -14,7 +14,7 @@ public class ResourceAnimation extends ViewAnimation {
     public ResourceAnimation(Builder builder, Context context, int id) {
         super(builder);
         if (context != null && id > 0) {
-            mAnimation = AnimationUtils.loadAnimation(context, id);
+            mAnimation = AnimationUtils.loadAnimation(context.getApplicationContext(), id);
         }
     }
 
