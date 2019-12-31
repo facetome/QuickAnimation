@@ -374,12 +374,10 @@ public class JavaPoetGenerator implements GenerateCode {
                         TextUtils.join(",", formatValue.toArray(new Float[formatValue.size()]), "f"));
                 currentIndex++;
             }
-            String quickName = BASE_PACKAGE_PATH + "QuickAnimation";
             String animatorSetPath = BASE_ANIMATION_PATH + "AnimatorSet";
             String animatorSetBuilderPath = animatorSetPath + ".Builder";
-            builder.addStatement("$T animatorBuilder = $T.with($L).asObjectAnimators()",
-                    ClassName.get(ClassUtils.getPackageName(animatorSetBuilderPath), ClassUtils.getClassSimpleName(animatorSetBuilderPath)),
-                    ClassName.get(ClassUtils.getPackageName(quickName), ClassUtils.getClassSimpleName(quickName)), "target");
+            builder.addStatement("$T animatorBuilder = builder.asObjectAnimators()",
+                    ClassName.get(ClassUtils.getPackageName(animatorSetBuilderPath), ClassUtils.getClassSimpleName(animatorSetBuilderPath)));
             for (int i = 0; i < animators.getAnimators().size(); i++) {
                 builder.addStatement("animatorBuilder.addAnimators(animator$L)", i);
             }

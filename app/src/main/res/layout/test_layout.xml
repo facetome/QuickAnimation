@@ -1,98 +1,112 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center">
 
-    <TextView
-        android:layout_width="100dp"
-        android:layout_height="40dp"
-        android:gravity="center"
-        android:background="@color/colorAccent"
-        android:onClick="processor"
-        android:text="注解实现" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center">
 
-    <TextView
-        android:layout_width="100dp"
-        android:layout_height="40dp"
-        android:gravity="center"
-        android:background="@color/colorAccent"
-        android:onClick="fragment"
-        android:text="fragment" />
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:background="@color/colorAccent"
+            android:onClick="processor"
+            android:text="注解实现" />
 
-    <TextView
-        android:layout_width="100dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="10dp"
-        android:gravity="center"
-        android:background="@color/colorAccent"
-        android:onClick="translate"
-        android:text="平移" />
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:layout_marginTop="10dp"
+            android:background="@color/colorAccent"
+            android:onClick="fragment"
+            android:text="fragment 注解" />
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:background="@color/colorAccent"
+            android:onClick="translate"
+            android:text="平移" />
 
 
-    <TextView
-        android:layout_width="100dp"
-        android:layout_height="40dp"
-        android:gravity="center"
-        android:background="@color/colorAccent"
-        android:onClick="rotate"
-        android:layout_marginTop="10dp"
-        android:text="旋转" />
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:background="@color/colorAccent"
+            android:onClick="rotate"
+            android:layout_marginTop="10dp"
+            android:text="旋转" />
 
-    <TextView
-        android:layout_width="100dp"
-        android:layout_height="40dp"
-        android:gravity="center"
-        android:background="@color/colorAccent"
-        android:onClick="alpha"
-        android:layout_marginTop="10dp"
-        android:text="透明度" />
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:background="@color/colorAccent"
+            android:onClick="alpha"
+            android:layout_marginTop="10dp"
+            android:text="透明度" />
 
-    <TextView
-        android:layout_width="100dp"
-        android:layout_height="40dp"
-        android:gravity="center"
-        android:background="@color/colorAccent"
-        android:onClick="scale"
-        android:layout_marginTop="10dp"
-        android:text="缩放" />
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:background="@color/colorAccent"
+            android:onClick="scale"
+            android:layout_marginTop="10dp"
+            android:text="缩放" />
 
-    <TextView
-        android:layout_width="100dp"
-        android:layout_height="40dp"
-        android:gravity="center"
-        android:background="@color/colorAccent"
-        android:onClick="resource"
-        android:layout_marginTop="10dp"
-        android:text="resource" />
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:background="@color/colorAccent"
+            android:onClick="resource"
+            android:layout_marginTop="10dp"
+            android:text="resource" />
 
-    <TextView
-        android:id="@+id/animator"
-        android:layout_width="100dp"
-        android:layout_height="40dp"
-        android:gravity="center"
-        android:background="@color/colorAccent"
-        android:onClick="animator"
-        android:layout_marginTop="10dp"
-        android:text="animator" />
+        <TextView
+            android:id="@+id/animator"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:background="@color/colorAccent"
+            android:onClick="animator"
+            android:layout_marginTop="10dp"
+            android:text="animator" />
 
-    <TextView
-        android:layout_width="100dp"
-        android:layout_height="40dp"
-        android:gravity="center"
-        android:background="@color/colorAccent"
-        android:onClick="animators"
-        android:layout_marginTop="10dp"
-        android:text="animators" />
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:background="@color/colorAccent"
+            android:onClick="animators"
+            android:layout_marginTop="10dp"
+            android:text="animators" />
 
-    <TextView
-        android:layout_width="100dp"
-        android:layout_height="40dp"
-        android:gravity="center"
-        android:background="@color/colorAccent"
-        android:onClick="animations"
-        android:layout_marginTop="10dp"
-        android:text="animations" />
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:background="@color/colorAccent"
+            android:onClick="animations"
+            android:layout_marginTop="10dp"
+            android:text="animations" />
 
-</LinearLayout>
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</FrameLayout>

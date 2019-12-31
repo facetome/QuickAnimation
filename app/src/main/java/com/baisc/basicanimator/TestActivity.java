@@ -31,6 +31,7 @@ public class TestActivity extends AppCompatActivity {
 
     }
 
+
     public void processor(View view) {
         Intent intent = new Intent(this, AnnotationTestActivity1.class);
         startActivity(intent);
@@ -113,26 +114,26 @@ public class TestActivity extends AppCompatActivity {
                 .duration(1000)
                 .delay(500).interpolator(new AccelerateInterpolator())
                 .callback(new OnAnimationCallback<BaseAnimation>() {
-            @Override
-            public void onStart(BaseAnimation animation) {
-                Log.d("basic", "onstart");
-            }
+                    @Override
+                    public void onStart(BaseAnimation animation) {
+                        Log.d("basic", "onstart");
+                    }
 
-            @Override
-            public void onEnd(BaseAnimation animation) {
-                Log.d("basic", "onEnd");
-            }
+                    @Override
+                    public void onEnd(BaseAnimation animation) {
+                        Log.d("basic", "onEnd");
+                    }
 
-            @Override
-            public void onCancel(BaseAnimation animation) {
-                Log.d("basic", "onCancel");
-            }
+                    @Override
+                    public void onCancel(BaseAnimation animation) {
+                        Log.d("basic", "onCancel");
+                    }
 
-            @Override
-            public void onRepeat(BaseAnimation animation) {
-                Log.d("basic", "onRepeat");
-            }
-        })
+                    @Override
+                    public void onRepeat(BaseAnimation animation) {
+                        Log.d("basic", "onRepeat");
+                    }
+                })
                 .asObjectAnimator("TranslationX").setFloatValues(0, 100, 200)
                 .create()
                 .play(view);
@@ -145,8 +146,8 @@ public class TestActivity extends AppCompatActivity {
                 .fillBefore(true)
                 .repeatMode(QuickAnimation.RESTART);
 
-        BaseObjectAnimator translateX = builder.asObjectAnimator("TranslationX").setFloatValues(0, 100).create();
-        BaseObjectAnimator translatey = builder.asObjectAnimator("TranslationY").setFloatValues(0, 100).create();
+        BaseObjectAnimator translateX = builder.asObjectAnimator("TranslationX").setFloatValues(0, 500, 100).create();
+        BaseObjectAnimator translatey = builder.asObjectAnimator("TranslationY").setFloatValues(0, 500, 100).create();
         BaseObjectAnimator aplha = builder.asObjectAnimator("Alpha").setFloatValues(1, 0.5f)
                 .create();
         BaseObjectAnimator ScaleX = builder.asObjectAnimator("ScaleX").setFloatValues(1, 2).create();
@@ -183,8 +184,11 @@ public class TestActivity extends AppCompatActivity {
                 .play(view);
     }
 
-    public void fragment(View view){
-
+    public void fragment(View view) {
+        getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, new AnnotationTestFragment(),
+                AnnotationTestFragment.TAG)
+                .addToBackStack(AnnotationTestFragment.TAG)
+                .commit();
     }
 
 

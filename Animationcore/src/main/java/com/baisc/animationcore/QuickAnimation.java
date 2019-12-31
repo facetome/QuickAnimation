@@ -171,11 +171,12 @@ public class QuickAnimation {
         }
 
         public ResourceAnimation asResourceAnimation(int id) {
-            Context context = mActivityReference.get();
-            if (context == null && mFragmentReference.get() != null) {
+            Context context = null;
+            if (mActivityReference != null){
+                context  = mActivityReference.get();
+            }  else if (mFragmentReference != null){
                 context = mFragmentReference.get().getActivity();
-            }
-            if (context == null && mSupportFragmentReference.get() != null) {
+            } else if (mSupportFragmentReference != null){
                 context = mSupportFragmentReference.get().getActivity();
             }
             return new ResourceAnimation(this, context, id);

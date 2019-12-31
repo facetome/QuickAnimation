@@ -1,6 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:clickable="true"
+    android:background="@color/colorPrimary">
+
+    <TextView
+        android:id="@+id/translate_fragment"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:gravity="center"
+        android:background="@color/colorAccent"
+        android:onClick="translate_fragment"
+        android:text="平移" />
+
+
+    <TextView
+        android:id="@+id/rotate_fragment"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:gravity="center"
+        android:background="@color/colorAccent"
+        android:onClick="rotate_fragment"
+        android:layout_marginTop="10dp"
+        android:text="旋转" />
+
+    <TextView
+        android:id="@+id/alpha_fragment"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:gravity="center"
+        android:background="@color/colorAccent"
+        android:onClick="alpha_fragment"
+        android:layout_marginTop="10dp"
+        android:text="透明度" />
+
+    <TextView
+        android:id="@+id/scale_fragment"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:gravity="center"
+        android:background="@color/colorAccent"
+        android:onClick="scale_fragment"
+        android:layout_marginTop="10dp"
+        android:text="缩放" />
+
+    <TextView
+        android:id="@+id/resource_fragment"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:gravity="center"
+        android:background="@color/colorAccent"
+        android:onClick="resource_fragment"
+        android:layout_marginTop="10dp"
+        android:text="resource" />
+
+    <TextView
+        android:id="@+id/animator_fragment"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:gravity="center"
+        android:background="@color/colorAccent"
+        android:onClick="animator_fragment"
+        android:layout_marginTop="10dp"
+        android:text="animator" />
+
+    <TextView
+        android:id="@+id/animators_fragment"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:gravity="center"
+        android:background="@color/colorAccent"
+        android:onClick="animators_fragment"
+        android:layout_marginTop="10dp"
+        android:text="animators" />
 
 </LinearLayout>
