@@ -158,7 +158,7 @@ public class QuickAnimation {
             return this;
         }
 
-        public Translate astTranslate(float fromX, float fromY, float toX, float toY) {
+        public Translate asTranslate(float fromX, float fromY, float toX, float toY) {
             return new Translate(this, fromX, toX, fromY, toY);
         }
 

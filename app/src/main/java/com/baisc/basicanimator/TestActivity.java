@@ -45,7 +45,7 @@ public class TestActivity extends AppCompatActivity {
                 .interpolator(new AccelerateDecelerateInterpolator())
                 .delay(0)
                 .duration(1000)
-                .astTranslate(0, 0, 500, 500).play(view);
+                .asTranslate(0, 0, 500, 500).play(view);
     }
 
     public void rotate(View view) {
@@ -173,7 +173,7 @@ public class TestActivity extends AppCompatActivity {
         Builder builder = QuickAnimation.with(this).fillBefore(true).repeatMode(QuickAnimation
                 .RESTART).delay(100)
                 .duration(1000);
-        com.baisc.animationcore.animation.Translate translate = builder.astTranslate(0, 0, 100, 100);
+        com.baisc.animationcore.animation.Translate translate = builder.asTranslate(0, 0, 100, 100);
         Scale scale = builder.asScale(1, 2, 1, 2, QuickAnimation.ABOSOLUTE, view.getWidth() / 2, QuickAnimation.ABOSOLUTE, view.getHeight() / 2);
 
         Rotate rotate = builder.asRotate(0, 360, QuickAnimation.ABOSOLUTE, view.getWidth() / 2f, QuickAnimation.ABOSOLUTE, view.getHeight() / 2f);

@@ -225,7 +225,7 @@ public class JavaPoetGenerator implements GenerateCode {
             Translate translate = (Translate) annotation;
 
             String translatePath = BASE_ANIMATION_PATH + "Translate";
-            builder.addStatement("$T $L = builder.astTranslate($Lf, $Lf,  $Lf,$Lf)",
+            builder.addStatement("$T $L = builder.asTranslate($Lf, $Lf,  $Lf,$Lf)",
                     ClassName.get(ClassUtils.getPackageName(translatePath),
                             ClassUtils.getClassSimpleName(translatePath)),
                     animationType().toLowerCase(),
