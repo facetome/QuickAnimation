@@ -32,7 +32,7 @@ public class QuickAnimation {
 
     public static final int REVERSE = 2;
 
-    public static final int ABOSOLUTE = Animation.ABSOLUTE;
+    public static final int ABSOLUTE = Animation.ABSOLUTE;
 
     public static final int RELATIVE_TO_SELF = Animation.RELATIVE_TO_SELF;
 
