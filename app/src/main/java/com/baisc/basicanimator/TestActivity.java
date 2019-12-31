@@ -77,7 +77,7 @@ public class TestActivity extends AppCompatActivity {
                         Log.d("basic", "onRepeat");
                     }
                 })
-                .asRotate(0, 360, QuickAnimation.ABOSOLUTE, view.getWidth() / 2, QuickAnimation.ABOSOLUTE, view.getHeight() / 2)
+                .asRotate(0, 360, QuickAnimation.ABSOLUTE, view.getWidth() / 2, QuickAnimation.ABSOLUTE, view.getHeight() / 2)
                 .play(view);
     }
 
@@ -99,7 +99,7 @@ public class TestActivity extends AppCompatActivity {
                 duration(1000)
                 .delay(100)
                 .interpolator(new AccelerateInterpolator())
-                .asScale(1, 2, 1, 2, QuickAnimation.ABOSOLUTE, view.getWidth() / 2f, QuickAnimation.ABOSOLUTE, view.getHeight() / 2f)
+                .asScale(1, 2, 1, 2, QuickAnimation.ABSOLUTE, view.getWidth() / 2f, QuickAnimation.ABSOLUTE, view.getHeight() / 2f)
                 .play(view);
     }
 
@@ -174,9 +174,9 @@ public class TestActivity extends AppCompatActivity {
                 .RESTART).delay(100)
                 .duration(1000);
         com.baisc.animationcore.animation.Translate translate = builder.asTranslate(0, 0, 100, 100);
-        Scale scale = builder.asScale(1, 2, 1, 2, QuickAnimation.ABOSOLUTE, view.getWidth() / 2, QuickAnimation.ABOSOLUTE, view.getHeight() / 2);
+        Scale scale = builder.asScale(1, 2, 1, 2, QuickAnimation.ABSOLUTE, view.getWidth() / 2, QuickAnimation.ABSOLUTE, view.getHeight() / 2);
 
-        Rotate rotate = builder.asRotate(0, 360, QuickAnimation.ABOSOLUTE, view.getWidth() / 2f, QuickAnimation.ABOSOLUTE, view.getHeight() / 2f);
+        Rotate rotate = builder.asRotate(0, 360, QuickAnimation.ABSOLUTE, view.getWidth() / 2f, QuickAnimation.ABSOLUTE, view.getHeight() / 2f);
         builder.asViewAnimation(true)
                 .addAnimations(translate)
                 .addAnimations(rotate)

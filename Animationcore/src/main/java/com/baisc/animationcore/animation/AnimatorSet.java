@@ -1,7 +1,6 @@
 package com.baisc.animationcore.animation;
 
 import android.animation.Animator;
-import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.animation.Animation;
 
