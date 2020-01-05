@@ -7,7 +7,8 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.0.1'
+        classpath 'com.android.tools.build:gradle:3.5.3'
+        classpath 'com.novoda:bintray-release:0.9.1'
         
 
         // NOTE: Do not place your application dependencies here; they belong
@@ -20,7 +21,14 @@ allprojects {
         google()
         jcenter()
     }
+    tasks.withType(Javadoc) {
+        options.addStringOption('Xdoclint:none', '-quiet')
+        options.addStringOption('encoding', 'UTF-8')
+    }
 }
+
+//避免生成doc的时候错误
+tasks.getByPath(":Animationcore:javadocRelease").enabled = false
 
 task clean(type: Delete) {
     delete rootProject.buildDir

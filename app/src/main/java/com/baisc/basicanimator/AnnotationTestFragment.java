@@ -1,7 +1,6 @@
 package com.baisc.basicanimator;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -18,13 +17,15 @@ import com.baisc.animationannotation.ResourceAnimation;
 import com.baisc.animationannotation.Rotate;
 import com.baisc.animationannotation.Scale;
 import com.baisc.animationannotation.Translate;
-import com.baisc.animationannotation.TypeEvaluator;
+
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 /**
  * Created by basic on 2019/12/8.
  */
 
-public class AnnotationTestFragment extends android.support.v4.app.Fragment implements OnClickListener {
+public class AnnotationTestFragment extends Fragment implements OnClickListener {
 
     public static final String TAG = "AnnotationTestFragment";
 

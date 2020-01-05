@@ -1,6 +1,5 @@
 package com.baisc.animationcore.utils;
 
-import java.util.List;
 
 /**
  * 文本工具类.

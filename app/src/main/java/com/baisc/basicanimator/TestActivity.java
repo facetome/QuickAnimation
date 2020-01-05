@@ -2,8 +2,6 @@ package com.baisc.basicanimator;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -16,6 +14,9 @@ import com.baisc.animationcore.QuickAnimation.OnAnimationCallback;
 import com.baisc.animationcore.animation.BaseObjectAnimator;
 import com.baisc.animationcore.animation.Rotate;
 import com.baisc.animationcore.animation.Scale;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 /**
  * Created by basic on 2019/7/7.

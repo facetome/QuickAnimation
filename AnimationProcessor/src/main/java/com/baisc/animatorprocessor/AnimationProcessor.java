@@ -63,7 +63,6 @@ public class AnimationProcessor extends AbstractProcessor {
 
     @Override
     public boolean process(Set<? extends TypeElement> set, RoundEnvironment roundEnvironment) {
-
         if (set == null || set.isEmpty()) {
             return false;
         }

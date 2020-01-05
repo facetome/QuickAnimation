@@ -41,8 +41,9 @@
         android:layout_height="40dp"
         android:gravity="center"
         android:background="@color/colorAccent"
-        android:onClick="scale"
         android:layout_marginTop="10dp"
+        android:clickable="true"
+        android:onClick="scale_click"
         android:text="缩放" />
 
     <TextView

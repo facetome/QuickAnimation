@@ -1,7 +1,6 @@
 package com.baisc.basicanimator;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.TextView;
@@ -16,6 +15,8 @@ import com.baisc.animationannotation.Rotate;
 import com.baisc.animationannotation.Scale;
 import com.baisc.animationannotation.Translate;
 import com.baisc.animationannotation.TypeEvaluator;
+
+import androidx.annotation.Nullable;
 
 /**
  * Created by basic on 2019/7/14.
@@ -80,7 +81,7 @@ public class AnnotationTestActivity1 extends TestActivity {
         AnnotationTestActivity1_Generator.playAlphaAlpha(this);
     }
 
-    public void scale(View view) {
+    public void scale_click(View view) {
         AnnotationTestActivity1_Generator.playScaleScale(this);
     }
 

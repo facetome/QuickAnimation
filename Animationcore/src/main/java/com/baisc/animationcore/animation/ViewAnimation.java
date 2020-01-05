@@ -1,7 +1,6 @@
 package com.baisc.animationcore.animation;
 
 import android.animation.TimeInterpolator;
-import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
@@ -10,6 +9,8 @@ import android.view.animation.Interpolator;
 import com.baisc.animationcore.BaseAnimation;
 import com.baisc.animationcore.QuickAnimation.Builder;
 import com.baisc.animationcore.AnimationState;
+
+import androidx.annotation.Nullable;
 
 /**
  * view动画基类.

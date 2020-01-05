@@ -5,7 +5,6 @@ import android.animation.TypeEvaluator;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
-import android.graphics.ColorSpace.Model;
 import android.view.animation.Animation;
 
 import com.baisc.animationcore.animation.Alpha;
@@ -46,7 +45,7 @@ public class QuickAnimation {
         return new Builder(fragment);
     }
 
-    public static Builder with(android.support.v4.app.Fragment fragment) {
+    public static Builder with(androidx.fragment.app.Fragment fragment) {
         return new Builder(fragment);
     }
 
@@ -76,7 +75,7 @@ public class QuickAnimation {
 
         private WeakReference<Fragment> mFragmentReference;
 
-        private WeakReference<android.support.v4.app.Fragment> mSupportFragmentReference;
+        private WeakReference<androidx.fragment.app.Fragment> mSupportFragmentReference;
 
         private TypeEvaluator evaluator;
 
@@ -106,7 +105,7 @@ public class QuickAnimation {
             mFragmentReference = new WeakReference<>(fragment);
         }
 
-        private Builder(android.support.v4.app.Fragment fragment) {
+        private Builder(androidx.fragment.app.Fragment fragment) {
             if (fragment == null) {
                 throw new IllegalArgumentException("fragment is not be allowed null");
             }
@@ -254,7 +253,7 @@ public class QuickAnimation {
 
         private boolean checkSupportFragment() {
             if (mSupportFragmentReference != null) {
-                android.support.v4.app.Fragment fragment = mSupportFragmentReference.get();
+                androidx.fragment.app.Fragment fragment = mSupportFragmentReference.get();
                 return fragment != null && fragment.isAdded();
             }
             return false;

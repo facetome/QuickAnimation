@@ -2,12 +2,12 @@ package com.baisc.animationcore.animation;
 
 import android.animation.Animator;
 import android.animation.Animator.AnimatorListener;
-import android.support.annotation.NonNull;
-import android.view.animation.Animation.AnimationListener;
 
 import com.baisc.animationcore.BaseAnimation;
 import com.baisc.animationcore.QuickAnimation;
 import com.baisc.animationcore.animation.BaseObjectAnimator.Builder;
+
+import androidx.annotation.NonNull;
 
 /**
  * base object animator.
