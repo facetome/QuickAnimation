@@ -1,10 +1,24 @@
 apply plugin: 'java-library'
+apply plugin: 'com.novoda.bintray-release'
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'com.google.auto.service:auto-service:1.0-rc2'
-    implementation project(':AnimationAnnotation')
+    compileOnly 'com.google.auto.service:auto-service:1.0-rc6'
     implementation 'com.squareup:javapoet:1.11.1'
+    implementation project(':AnimationAnnotation')
+}
+
+publish {
+    repoName = 'QuickAnimation'//远程仓库名字,不指明，默认是上传到maven
+    userOrg = 'facetome'//bintray.com用户名
+    groupId = 'com.basic.animation'//jcenter中bintray上创建Package时填写的Version control一致
+    artifactId = 'annotation_processor'//项目名称，bintray上创建Package时填写的Name一致
+    publishVersion = '1.0.0'//版本号，自定义
+    desc = 'android animation processor'//描述，选填
+    website = 'https://github.com/facetome/QuickAnimation'//网站地址，一般填写项目github地址，选填
+    bintrayUser = 'facetome' //bintray.com用户名
+    bintrayKey = getConfig("jecenter_key") //
+    dryRun = false  //设置为false才能上传
 }
 
 task uploadJar(type:Copy, group:'build', dependsOn:'clean'){

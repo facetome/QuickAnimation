@@ -1,15 +1,20 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.novoda.bintray-release'
 
 android {
-    compileSdkVersion 27
+    compileSdkVersion 28
 
     defaultConfig {
         minSdkVersion 14
-        targetSdkVersion 27
+        targetSdkVersion 28
         versionCode 1
         versionName "1.0"
     }
 
+    lintOptions { // 新增
+        abortOnError false
+    }
+    
     buildTypes {
         release {
             minifyEnabled false
@@ -17,6 +22,19 @@ android {
         }
     }
 
+}
+
+publish {
+    repoName = 'QuickAnimation'//远程仓库名字,不指明，默认是上传到maven
+    userOrg = 'facetome'//bintray.com用户名
+    groupId = 'com.basic.animation'//jcenter中bintray上创建Package时填写的Version control一致
+    artifactId = 'animation_core'//项目名称，bintray上创建Package时填写的Name一致
+    publishVersion = '1.0.0'//版本号，自定义
+    desc = 'android animation'//描述，选填
+    website = 'https://github.com/facetome/QuickAnimation'//网站地址，一般填写项目github地址，选填
+    bintrayUser = 'facetome' //bintray.com用户名
+    bintrayKey = getConfig("jecenter_key")  //
+    dryRun = false  //设置为false才能上传
 }
 
 task deleteOldAAR(type: Delete, dependsOn: 'assembleRelease') {
@@ -37,12 +55,8 @@ task uploadAAR(group:'build') {
 
 }
 
-
-
-
-
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    api 'androidx.appcompat:appcompat:1.1.0'
 
-    implementation 'com.android.support:appcompat-v7:27.1.0'
 }
