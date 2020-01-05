@@ -31,7 +31,7 @@ def getConfig(String key){
     Properties properties = new Properties()
     properties.load(new FileInputStream(rootProject.getRootDir().getAbsolutePath() + "/jecenter.properties"))
     String config =  properties.getProperty(key)
-    print("config: " + config)
+    println("config: " + config)
 }
 
 

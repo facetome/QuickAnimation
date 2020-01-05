@@ -32,7 +32,7 @@ publish {
     publishVersion = '1.0.0'//版本号，自定义
     desc = 'android animation'//描述，选填
     website = 'https://github.com/facetome/QuickAnimation'//网站地址，一般填写项目github地址，选填
-    bintrayUser = 'facetome' //bintray.com用户名
+    bintrayUser = getConfig("user_name") //bintray.com用户名
     bintrayKey = getConfig("jecenter_key")  //
     dryRun = false  //设置为false才能上传
 }
