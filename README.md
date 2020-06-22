@@ -3,7 +3,7 @@
 QuickAnimation整合了现有的view动画和属性动画，简化了在日常动画使用过程中繁琐的调用过程。同时引入了编译时注解，自动生成动画类，进一步减少了开发者编写动画的工作量。  
 当前已经适配到androidx
 ## 使用方式
-     implementation 'com.basic.animation:animation_core:1.0.0'
+     implementation 'com.basic.animation:animation_core:1.0.1'
      implementation 'com.basic.animation:animation_annotation:1.0.0'
      annotationProcessor 'com.basic.animation:annotation_processor:1.0.0'
 
@@ -34,7 +34,8 @@ QuickAnimation整合了现有的view动画和属性动画，简化了在日常�
 缩放动画  
 
     @AnimationParams(duration = 1000, delayTime = 100)  
-    @Scale(fromX = 1, toX = 2, fromY = 1, toY = 2, pivotXType = 1, pivotXValue = 0.5f, pivotYType = 1,pivotYValue = 0.5f)         TextView scale;
+    @Scale(fromX = 1, toX = 2, fromY = 1, toY = 2, pivotXType = 1, pivotXValue = 0.5f, pivotYType = 1,pivotYValue = 0.5f)           
+    TextView scale;
 
 xml方式  
 
