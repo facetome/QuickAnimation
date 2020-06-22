@@ -34,7 +34,8 @@ QuickAnimation整合了现有的view动画和属性动画，简化了在日常�
 缩放动画  
 
     @AnimationParams(duration = 1000, delayTime = 100)  
-    @Scale(fromX = 1, toX = 2, fromY = 1, toY = 2, pivotXType = 1, pivotXValue = 0.5f, pivotYType = 1,pivotYValue = 0.5f)         TextView scale;
+    @Scale(fromX = 1, toX = 2, fromY = 1, toY = 2, pivotXType = 1, pivotXValue = 0.5f, pivotYType = 1,pivotYValue = 0.5f)           
+    TextView scale;
 
 xml方式  
 
