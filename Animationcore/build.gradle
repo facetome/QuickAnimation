@@ -7,8 +7,8 @@ android {
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 28
-        versionCode 1
-        versionName "1.0"
+        versionCode 2
+        versionName "1.0.1"
     }
 
     lintOptions { // 新增
@@ -29,7 +29,7 @@ publish {
     userOrg = 'facetome'//bintray.com用户名
     groupId = 'com.basic.animation'//jcenter中bintray上创建Package时填写的Version control一致
     artifactId = 'animation_core'//项目名称，bintray上创建Package时填写的Name一致
-    publishVersion = '1.0.0'//版本号，自定义
+    publishVersion = '1.0.1'//版本号，自定义
     desc = 'android animation'//描述，选填
     website = 'https://github.com/facetome/QuickAnimation'//网站地址，一般填写项目github地址，选填
     bintrayUser = getConfig("user_name") //bintray.com用户名

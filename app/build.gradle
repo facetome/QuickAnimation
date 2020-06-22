@@ -20,7 +20,7 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    annotationProcessor project(':AnimationProcessor')
-    implementation project(':AnimationAnnotation')
-    implementation project(':Animationcore')
+    implementation 'com.basic.animation:animation_core:1.0.1'
+    implementation 'com.basic.animation:animation_annotation:1.0.0'
+    annotationProcessor 'com.basic.animation:annotation_processor:1.0.0'
 }
